@@ -3,6 +3,10 @@ plugins {
   kotlin("plugin.spring") version "2.1.21"
 }
 
+dependencyCheck {
+  suppressionFile = "/src/main/resources/dependency-suppression.xml"
+}
+
 configurations {
   testImplementation { exclude(group = "org.junit.vintage") }
 }
