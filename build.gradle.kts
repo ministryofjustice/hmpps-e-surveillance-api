@@ -1,6 +1,10 @@
 plugins {
-  id("uk.gov.justice.hmpps.gradle-spring-boot") version "8.3.0"
+  id("uk.gov.justice.hmpps.gradle-spring-boot") version "8.3.2"
   kotlin("plugin.spring") version "2.1.21"
+}
+
+dependencyCheck {
+  suppressionFile = "/src/main/resources/dependency-suppression.xml"
 }
 
 configurations {
