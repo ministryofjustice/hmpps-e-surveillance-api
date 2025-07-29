@@ -1,0 +1,12 @@
+hmpps-auth:
+  url: "http://localhost:8090/auth"
+
+aws:
+  s3:
+    endpoint: http://host.docker.internal:4566
+  sns:
+    endpoint: http://localstack:4566
+  credentials:
+    accessKey: test
+    secretKey: test
+  region: eu-west-2
