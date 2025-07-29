@@ -57,4 +57,3 @@ services:
 
 networks:
   hmpps:
-    driver: bridge
