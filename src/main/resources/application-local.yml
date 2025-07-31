@@ -10,3 +10,16 @@ aws:
     accessKey: test
     secretKey: test
   region: eu-west-2
+  topic-arn:
+    events: "arn:aws:sns:eu-west-2:000000000000:surv-topic-events"
+    s3: "arn:aws:sns:eu-west-2:000000000000:surv-topic-s3"
+
+end-point:
+  ingest: "http://hmpps-e-surveillance-api:8080/ingest/"
+  ingest-events: "http://hmpps-e-surveillance-api:8080/ingest/events"
+
+spring:
+  datasource:
+    url: "jdbc:postgresql://surveillance-db:5432/esurveillance"
+    username: myuser
+    password: mypassword

@@ -17,6 +17,9 @@ services:
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
       - AWS_DEFAULT_REGION=eu-west-2
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://surveillance-db:5432/esurveillance
+      - SPRING_DATASOURCE_USERNAME=myuser
+      - SPRING_DATASOURCE_PASSWORD=mypassword
 
 
   hmpps-auth:
@@ -54,6 +57,20 @@ services:
       - ./localstack:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
       - ./init:/etc/localstack/init/ready.d
+
+  surveillance-db:
+    image: postgres:15
+    container_name: surveillance-db
+    networks:
+      - hmpps
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: esurveillance
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 networks:
   hmpps:
