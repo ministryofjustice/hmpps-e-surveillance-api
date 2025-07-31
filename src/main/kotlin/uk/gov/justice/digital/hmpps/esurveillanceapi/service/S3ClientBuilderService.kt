@@ -9,7 +9,6 @@ import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.S3Configuration
 import java.net.URI
 
-
 @Service
 class S3ClientBuilderService {
 
@@ -25,20 +24,18 @@ class S3ClientBuilderService {
   @Value("\${aws.region}")
   private lateinit var region: String
 
-  fun buildS3Client(): S3Client {
-    return S3Client.builder()
-      .region(Region.of(region))
-      .endpointOverride(URI.create(s3Endpoint))
-      .credentialsProvider(
-        StaticCredentialsProvider.create(
-          AwsBasicCredentials.create(accessKey, secretKey)
-        )
-      )
-      .serviceConfiguration(
-        S3Configuration.builder()
-          .pathStyleAccessEnabled(true)
-          .build()
-      )
-      .build()
-  }
+  fun buildS3Client(): S3Client = S3Client.builder()
+    .region(Region.of(region))
+    .endpointOverride(URI.create(s3Endpoint))
+    .credentialsProvider(
+      StaticCredentialsProvider.create(
+        AwsBasicCredentials.create(accessKey, secretKey),
+      ),
+    )
+    .serviceConfiguration(
+      S3Configuration.builder()
+        .pathStyleAccessEnabled(true)
+        .build(),
+    )
+    .build()
 }

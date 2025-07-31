@@ -1,15 +1,15 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.data
 
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
 
 @Serializable
 data class SnsPayload(
-  val Message: String
+  val Message: String,
 )
 
 @Serializable
 data class EventPayload(
   val personId: String,
   val source: String,
-  val bucket: String
+  val bucket: String,
 )

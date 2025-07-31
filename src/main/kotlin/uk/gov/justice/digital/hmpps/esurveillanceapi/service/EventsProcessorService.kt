@@ -9,14 +9,11 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.EventPayload
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.SnsPayload
 import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Service
 class EventsProcessorService(private val s3ClientBuilderService: S3ClientBuilderService) {
 
   fun processPersonId(outerJson: JsonNode) {
-
     val mapper = jacksonObjectMapper()
     val json = Json { ignoreUnknownKeys = true }
     val jsonString = mapper.writeValueAsString(outerJson)

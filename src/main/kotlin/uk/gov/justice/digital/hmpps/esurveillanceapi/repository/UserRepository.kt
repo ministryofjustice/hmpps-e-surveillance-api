@@ -1,6 +1,6 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
-import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.PopUsers
+import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.PopUser
 
-interface UserRepository : JpaRepository<PopUsers, Long>
+interface UserRepository : JpaRepository<PopUser, Long>

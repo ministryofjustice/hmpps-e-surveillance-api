@@ -1,11 +1,15 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.resource
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.EventsProcessorService
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.FileProcessorService
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.SnsSubscriptionService
@@ -13,9 +17,11 @@ import kotlin.String
 
 @RestController
 @RequestMapping("/ingest")
-class IngestResource(private val fileProcessorService: FileProcessorService,
-                     private val snsSubscriptionService: SnsSubscriptionService,
-                     private val eventsProcessorService: EventsProcessorService) {
+class IngestResource(
+  private val fileProcessorService: FileProcessorService,
+  private val snsSubscriptionService: SnsSubscriptionService,
+  private val eventsProcessorService: EventsProcessorService,
+) {
   companion object {
     val LOG: Logger = LoggerFactory.getLogger(this::class.java)
   }
@@ -24,11 +30,11 @@ class IngestResource(private val fileProcessorService: FileProcessorService,
   @PostMapping(
     value = ["/"],
     consumes = [MediaType.TEXT_PLAIN_VALUE],
-    produces = [MediaType.TEXT_PLAIN_VALUE]
+    produces = [MediaType.TEXT_PLAIN_VALUE],
   )
   fun ingestUploadFile(
     @RequestBody rawMessage: String,
-    @RequestHeader("x-amz-sns-message-type", required = false) messageType: String?
+    @RequestHeader("x-amz-sns-message-type", required = false) messageType: String?,
   ): ResponseEntity<String> {
     LOG.info("Received SNS MessageType: $messageType")
 
@@ -46,11 +52,11 @@ class IngestResource(private val fileProcessorService: FileProcessorService,
   @PostMapping(
     value = ["/events"],
     consumes = [MediaType.TEXT_PLAIN_VALUE],
-    produces = [MediaType.TEXT_PLAIN_VALUE]
+    produces = [MediaType.TEXT_PLAIN_VALUE],
   )
   fun ingestEvents(
     @RequestBody rawMessage: String,
-    @RequestHeader("x-amz-sns-message-type", required = false) messageType: String?
+    @RequestHeader("x-amz-sns-message-type", required = false) messageType: String?,
   ): ResponseEntity<String> {
     LOG.info("Received SNS MessageType: $messageType")
 
@@ -63,5 +69,4 @@ class IngestResource(private val fileProcessorService: FileProcessorService,
 
     return ResponseEntity.ok("Processed")
   }
-
 }

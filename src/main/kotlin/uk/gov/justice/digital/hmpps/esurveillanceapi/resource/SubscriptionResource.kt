@@ -19,9 +19,7 @@ import java.net.URI
 class SubscriptionResource {
 
   @GetMapping("/hello")
-  fun sayHello(@RequestParam(name = "name", defaultValue = "World") name: String): String {
-    return "Hello, $name!"
-  }
+  fun sayHello(@RequestParam(name = "name", defaultValue = "World") name: String): String = "Hello, $name!"
 
   @Value("\${aws.sns.endpoint}")
   private lateinit var snsEndpoint: String
@@ -50,7 +48,7 @@ class SubscriptionResource {
   @GetMapping(value = ["/subscribe/{topic}"])
   fun subscribe(@PathVariable topic: String) {
     val snsClient = buildSnsClient()
-    if(topic.contains("s3")){
+    if (topic.contains("s3")) {
       val subscribeRequest = SubscribeRequest.builder()
         .topicArn(s3TopicArn)
         .protocol("http")
@@ -59,7 +57,7 @@ class SubscriptionResource {
 
       val subscribeResponse = snsClient.subscribe(subscribeRequest)
       LOG.info("Subscribed: ${subscribeResponse.subscriptionArn()}")
-    } else if(topic.contains("event")) {
+    } else if (topic.contains("event")) {
       val subscribeRequest = SubscribeRequest.builder()
         .topicArn(eventsTopicArn)
         .protocol("http")
@@ -69,18 +67,15 @@ class SubscriptionResource {
       val subscribeResponse = snsClient.subscribe(subscribeRequest)
       LOG.info("Subscribed: ${subscribeResponse.subscriptionArn()}")
     }
-
   }
 
-  private fun buildSnsClient(): SnsClient {
-    return SnsClient.builder()
-      .endpointOverride(URI.create(snsEndpoint))
-      .credentialsProvider(
-        StaticCredentialsProvider.create(
-          AwsBasicCredentials.create(accessKey, secretKey)
-        )
-      )
-      .region(Region.of(region))
-      .build()
-  }
+  private fun buildSnsClient(): SnsClient = SnsClient.builder()
+    .endpointOverride(URI.create(snsEndpoint))
+    .credentialsProvider(
+      StaticCredentialsProvider.create(
+        AwsBasicCredentials.create(accessKey, secretKey),
+      ),
+    )
+    .region(Region.of(region))
+    .build()
 }

@@ -3,6 +3,8 @@ package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
@@ -11,18 +13,18 @@ import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import software.amazon.awssdk.services.sns.SnsClient
 import software.amazon.awssdk.services.sns.model.PublishRequest
-import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.PopUsers
+import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.PopUser
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.UserRepository
 import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
 import java.net.URI
 import kotlin.text.removeSurrounding
 import kotlin.text.toLong
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Service
-class FileProcessorService(private val userRepository: UserRepository,
-  private val s3ClientBuilderService: S3ClientBuilderService) {
+class FileProcessorService(
+  private val userRepository: UserRepository,
+  private val s3ClientBuilderService: S3ClientBuilderService,
+) {
   @Value("\${aws.s3.endpoint}")
   private lateinit var s3Endpoint: String
 
@@ -54,8 +56,8 @@ class FileProcessorService(private val userRepository: UserRepository,
       LOG.info("Data received from pop CSV file: $key")
 
       val data = response.bufferedReader().readText()
-      val popUsers: List<PopUsers> = csvReader().readAllWithHeader(data).map { row ->
-        PopUsers(
+      val popUsers: List<PopUser> = csvReader().readAllWithHeader(data).map { row ->
+        PopUser(
           id = row["id"]?.toLong() ?: 0,
           deliusId = row["delius_id"]?.removeSurrounding("'") ?: "",
           uniqueDeviceWearerId = row["delius_id"]?.removeSurrounding("'") ?: "",
@@ -64,7 +66,7 @@ class FileProcessorService(private val userRepository: UserRepository,
           familyName = row["family_name"]?.removeSurrounding("'") ?: "",
           alias = row["alias"]?.removeSurrounding("'") ?: "",
           createdAt = row["timestamp"]?.removeSurrounding("'") ?: "",
-          toy = row["toy"]?.removeSurrounding("'").toBoolean()
+          toy = row["toy"]?.removeSurrounding("'").toBoolean(),
         )
       }
 
@@ -78,7 +80,7 @@ class FileProcessorService(private val userRepository: UserRepository,
       .bucket(bucket)
       .key(key)
       .build()
-    val snsClient = buildSnsClient();
+    val snsClient = buildSnsClient()
     s3Client.getObject(request).use { response ->
       LOG.info("Data received from events CSV file: $key")
 
@@ -92,7 +94,7 @@ class FileProcessorService(private val userRepository: UserRepository,
           val messagePayload = mapOf(
             "personId" to id,
             "source" to key,
-            "bucket" to bucket
+            "bucket" to bucket,
           )
           val messageJson = Json.encodeToString(messagePayload)
           val request = PublishRequest.builder()
@@ -108,24 +110,22 @@ class FileProcessorService(private val userRepository: UserRepository,
   }
 
   private fun processFile(bucket: String, key: String) {
-    if(key.contains("pop")) {
+    if (key.contains("pop")) {
       processPosUsers(bucket, key)
-    } else if(key.contains("event")) {
+    } else if (key.contains("event")) {
       processEvents(bucket, key)
     }
   }
 
-  private fun buildSnsClient(): SnsClient {
-    return SnsClient.builder()
-      .endpointOverride(URI.create(snsEndpoint))
-      .credentialsProvider(
-        StaticCredentialsProvider.create(
-          AwsBasicCredentials.create(accessKey, secretKey)
-        )
-      )
-      .region(Region.of(region))
-      .build()
-  }
+  private fun buildSnsClient(): SnsClient = SnsClient.builder()
+    .endpointOverride(URI.create(snsEndpoint))
+    .credentialsProvider(
+      StaticCredentialsProvider.create(
+        AwsBasicCredentials.create(accessKey, secretKey),
+      ),
+    )
+    .region(Region.of(region))
+    .build()
 
   fun processUploadedFile(outerJson: JsonNode) {
     val messageJson = outerJson["Message"]?.asText()

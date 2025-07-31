@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service
 import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
 import java.net.HttpURLConnection
 import java.net.URI
-import java.net.URL
 
 @Service
 class SnsSubscriptionService {
