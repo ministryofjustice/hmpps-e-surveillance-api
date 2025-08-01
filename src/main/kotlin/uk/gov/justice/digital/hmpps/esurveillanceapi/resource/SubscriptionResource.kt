@@ -47,7 +47,7 @@ class SubscriptionResource {
 
   @GetMapping(value = ["/subscribe/{topic}"])
   fun subscribe(@PathVariable topic: String) {
-    LOG.info("Received subscription request for: ${topic}")
+    LOG.info("Received subscription request for: $topic")
     val snsClient = buildSnsClient()
     if (topic.contains("s3")) {
       val subscribeRequest = SubscribeRequest.builder()
