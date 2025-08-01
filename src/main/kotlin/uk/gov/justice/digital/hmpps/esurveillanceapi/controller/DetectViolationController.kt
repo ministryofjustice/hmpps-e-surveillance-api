@@ -1,23 +1,25 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.controller
 
-import org.springframework.web.bind.annotation.*
-import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import uk.gov.justice.digital.hmpps.esurveillanceapi.domain.Event
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import uk.gov.justice.digital.hmpps.esurveillanceapi.domain.ViolationRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.mappers.mapViolationTypeToViolation
+import uk.gov.justice.digital.hmpps.esurveillanceapi.service.PersonService
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.Tone
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.ViolationDetector
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.generateMessage
-import uk.gov.justice.digital.hmpps.esurveillanceapi.service.PersonService
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @RestController
 @RequestMapping("/detect-violation")
 class DetectViolationController(
   private val violationDetector: ViolationDetector,
-  private val personService: PersonService
+  private val personService: PersonService,
 ) {
 
   @PostMapping
@@ -38,8 +40,8 @@ class DetectViolationController(
       return ResponseEntity.ok(
         mapOf(
           "violation" to null,
-          "message" to null
-        )
+          "message" to null,
+        ),
       )
     }
 
@@ -53,8 +55,8 @@ class DetectViolationController(
       mapOf(
         "violation" to violation.name,
         "message" to message,
-        "date" to formattedDate
-      )
+        "date" to formattedDate,
+      ),
     )
   }
 }

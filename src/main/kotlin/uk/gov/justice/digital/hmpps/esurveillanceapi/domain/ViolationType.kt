@@ -1,43 +1,42 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.domain
 
 enum class ViolationType(
-    val initiators: Set<String>,
-    val terminators: Set<String>
+  val initiators: Set<String>,
+  val terminators: Set<String>,
 ) {
-    TAMPER(
-        initiators = setOf("EV_PID_STRAP_TAMPER_START"),
-        terminators = setOf("EV_PID_STRAP_TAMPER_END")
+  TAMPER(
+    initiators = setOf("EV_PID_STRAP_TAMPER_START"),
+    terminators = setOf("EV_PID_STRAP_TAMPER_END"),
+  ),
+  CURFEW_VIOLATION(
+    initiators = setOf(
+      "EV_ZONE_INCLUSION_TU_ABSENT_AT_START_TIME",
+      "EV_CURFEWED_PID_ABSENT",
+      "EV_PID_ABSENT",
+      "EV_PID_ABSENT_DURING",
     ),
-    CURFEW_VIOLATION(
-        initiators = setOf(
-            "EV_ZONE_INCLUSION_TU_ABSENT_AT_START_TIME",
-            "EV_CURFEWED_PID_ABSENT",
-            "EV_PID_ABSENT",
-            "EV_PID_ABSENT_DURING"
-        ),
-        terminators = setOf(
-            "EV_ZONE_INCLUSION_TU_ARRIVED_DURING_TIME",
-            "EV_CURFEWED_PID_ARRIVED",
-            "EV_PID_ARRIVED"
-        )
+    terminators = setOf(
+      "EV_ZONE_INCLUSION_TU_ARRIVED_DURING_TIME",
+      "EV_CURFEWED_PID_ARRIVED",
+      "EV_PID_ARRIVED",
     ),
-    EXCLUSION_ZONE_VIOLATION(
-        initiators = setOf(
-            "EV_EXCLUDED_PID_ARRIVED_DURING_EXCLUSION",
-            "EV_ZONE_EXCLUSION_TU_PRESENT_AT_START_TIME",
-            "EV_ZONE_EXCLUSION_TU_ARRIVED_DURING_TIME"
-        ),
-        terminators = setOf(
-            "EV_EXCLUDED_PID_DEPARTED_DURING_EXCLUSION",
-            "EV_ZONE_EXCLUSION_TU_DEPARTED_DURING_TIME"
-        )
-    );
+  ),
+  EXCLUSION_ZONE_VIOLATION(
+    initiators = setOf(
+      "EV_EXCLUDED_PID_ARRIVED_DURING_EXCLUSION",
+      "EV_ZONE_EXCLUSION_TU_PRESENT_AT_START_TIME",
+      "EV_ZONE_EXCLUSION_TU_ARRIVED_DURING_TIME",
+    ),
+    terminators = setOf(
+      "EV_EXCLUDED_PID_DEPARTED_DURING_EXCLUSION",
+      "EV_ZONE_EXCLUSION_TU_DEPARTED_DURING_TIME",
+    ),
+  ),
+  ;
 
-    companion object {
-        fun fromInitiator(eventType: String): ViolationType? =
-            entries.firstOrNull { eventType in it.initiators }
+  companion object {
+    fun fromInitiator(eventType: String): ViolationType? = entries.firstOrNull { eventType in it.initiators }
 
-        fun fromTerminator(eventType: String): ViolationType? =
-            entries.firstOrNull { eventType in it.terminators }
-    }
+    fun fromTerminator(eventType: String): ViolationType? = entries.firstOrNull { eventType in it.terminators }
+  }
 }

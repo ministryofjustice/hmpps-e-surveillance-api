@@ -9,7 +9,7 @@ class SecurityConfig {
   @Bean
   fun resourceServerCustomizer() = ResourceServerConfigurationCustomizer {
     unauthorizedRequestPaths {
-      addPaths = setOf("/sns/notification", "/test/**","/detect-violation")
+      addPaths = setOf("/sns/notification", "/test/**", "/detect-violation")
     }
   }
 }

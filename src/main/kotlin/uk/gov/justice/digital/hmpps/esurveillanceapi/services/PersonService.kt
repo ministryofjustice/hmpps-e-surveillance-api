@@ -4,8 +4,9 @@ import org.springframework.stereotype.Service
 
 data class Person(
   val personId: String,
-  val givenName: String
+  val givenName: String,
 )
+
 @Service
 object PersonService {
   private val people = listOf(
@@ -28,10 +29,8 @@ object PersonService {
     Person("1ebc15d8ac76467a9231e8e8052a432a", "Samuel"),
     Person("0373510a4d47432eb28e9e34a718844a", "Hassan"),
     Person("0144d9e666954edc9bdd5ee245db583d", "Isla"),
-    Person("b3a3e9416056491c8260eaae0617b621", "Nathan")
+    Person("b3a3e9416056491c8260eaae0617b621", "Nathan"),
   )
 
-  fun getNameByPersonId(personId: String): String? {
-    return people.find { it.personId == personId }?.givenName
-  }
+  fun getNameByPersonId(personId: String): String? = people.find { it.personId == personId }?.givenName
 }
