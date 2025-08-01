@@ -51,26 +51,29 @@ class FileProcessorService(
       .bucket(bucket)
       .key(key)
       .build()
+    try {
+      s3Client.getObject(request).use { response ->
+        LOG.info("Data received from pop CSV file: $key")
 
-    s3Client.getObject(request).use { response ->
-      LOG.info("Data received from pop CSV file: $key")
+        val data = response.bufferedReader().readText()
+        val popUsers: List<PopUser> = csvReader().readAllWithHeader(data).map { row ->
+          PopUser(
+            id = row["id"]?.toLong() ?: 0,
+            deliusId = row["delius_id"]?.removeSurrounding("'") ?: "",
+            uniqueDeviceWearerId = row["delius_id"]?.removeSurrounding("'") ?: "",
+            personId = row["delius_id"]?.removeSurrounding("'") ?: "",
+            givenName = row["given_name"]?.removeSurrounding("'") ?: "",
+            familyName = row["family_name"]?.removeSurrounding("'") ?: "",
+            alias = row["alias"]?.removeSurrounding("'") ?: "",
+            createdAt = row["timestamp"]?.removeSurrounding("'") ?: "",
+            toy = row["toy"]?.removeSurrounding("'").toBoolean(),
+          )
+        }
 
-      val data = response.bufferedReader().readText()
-      val popUsers: List<PopUser> = csvReader().readAllWithHeader(data).map { row ->
-        PopUser(
-          id = row["id"]?.toLong() ?: 0,
-          deliusId = row["delius_id"]?.removeSurrounding("'") ?: "",
-          uniqueDeviceWearerId = row["delius_id"]?.removeSurrounding("'") ?: "",
-          personId = row["delius_id"]?.removeSurrounding("'") ?: "",
-          givenName = row["given_name"]?.removeSurrounding("'") ?: "",
-          familyName = row["family_name"]?.removeSurrounding("'") ?: "",
-          alias = row["alias"]?.removeSurrounding("'") ?: "",
-          createdAt = row["timestamp"]?.removeSurrounding("'") ?: "",
-          toy = row["toy"]?.removeSurrounding("'").toBoolean(),
-        )
+        userRepository.saveAll(popUsers)
       }
-
-      userRepository.saveAll(popUsers)
+    } catch (e: Exception) {
+      LOG.error("Error while processing pop file: ${e.message}")
     }
   }
 
