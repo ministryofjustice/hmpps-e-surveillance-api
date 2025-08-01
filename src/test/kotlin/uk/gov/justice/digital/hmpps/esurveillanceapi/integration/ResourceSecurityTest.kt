@@ -23,7 +23,7 @@ class ResourceSecurityTest : IntegrationTestBase() {
     "POST /ingest/events",
     "GET /test/**",
     "GET /test/subscribe/{topic}",
-    "GET /test/hello"
+    "GET /test/hello",
   )
 
   @Test
