@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.esurveillanceapi.domain
+package uk.gov.justice.digital.hmpps.esurveillanceapi.data
 
 enum class ViolationType(
   val initiators: Set<String>,

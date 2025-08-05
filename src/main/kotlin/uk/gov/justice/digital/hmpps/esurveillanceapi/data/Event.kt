@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.esurveillanceapi.domain
+package uk.gov.justice.digital.hmpps.esurveillanceapi.data
 
 data class Event(
   val personId: String,

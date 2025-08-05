@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.esurveillanceapi.controller
+package uk.gov.justice.digital.hmpps.esurveillanceapi.resource
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import uk.gov.justice.digital.hmpps.esurveillanceapi.domain.ViolationRequest
-import uk.gov.justice.digital.hmpps.esurveillanceapi.mappers.mapViolationTypeToViolation
+import uk.gov.justice.digital.hmpps.esurveillanceapi.data.ViolationRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.PersonService
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.Tone
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.ViolationDetector
@@ -17,7 +16,7 @@ import java.time.format.DateTimeFormatter
 
 @RestController
 @RequestMapping("/detect-violation")
-class DetectViolationController(
+class DetectViolationResource(
   private val violationDetector: ViolationDetector,
   private val personService: PersonService,
 ) {
@@ -31,7 +30,7 @@ class DetectViolationController(
     }
 
     val violationType = violationDetector.detectViolation(events)
-    val violation = violationType?.let { mapViolationTypeToViolation(it) }
+    val violation = violationType?.let { violationDetector.mapViolationTypeToViolation(it) }
 
     val personId = events.firstOrNull()?.personId.orEmpty()
     val popName = personService.getNameByPersonId(personId).orEmpty()
@@ -45,7 +44,7 @@ class DetectViolationController(
       )
     }
 
-    val tone = Tone.fromString(req.tone) ?: Tone.NEUTRAL
+    val tone = Tone.Companion.fromString(req.tone) ?: Tone.NEUTRAL
     val message = generateMessage(popName, violation, tone)
 
     val formattedDate = LocalDateTime.now()
