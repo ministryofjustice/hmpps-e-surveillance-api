@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class EventData(
   @JsonProperty("person_id") val personId: String?,
-  @JsonProperty("event_name") val eventName: String?,
+  @JsonProperty("event_type") val eventType: String?,
   @JsonProperty("timestamp") val timestamp: String?,
 )

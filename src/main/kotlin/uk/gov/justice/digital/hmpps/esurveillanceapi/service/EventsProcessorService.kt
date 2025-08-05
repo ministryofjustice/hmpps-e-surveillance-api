@@ -42,7 +42,7 @@ class EventsProcessorService(private val s3ClientBuilderService: S3ClientBuilder
         .map { row ->
           EventData(
             personId = row["person_id"]?.removeSurrounding("'"),
-            eventName = row["event_name"]?.removeSurrounding("'"),
+            eventType = row["event_name"]?.removeSurrounding("'"),
             timestamp = row["timestamp"]?.removeSurrounding("'"),
           )
         }
