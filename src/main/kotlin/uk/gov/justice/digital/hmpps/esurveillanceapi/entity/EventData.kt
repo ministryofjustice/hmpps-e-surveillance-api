@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class EventData(
   val personId: String?,
-  val eventType: String?,
+  val eventName: String?,
   val timestamp: String?,
 )
