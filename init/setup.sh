@@ -30,3 +30,15 @@ awslocal s3api put-bucket-notification-configuration \
     ]
   }'
   echo "AWS setup Done...."
+
+echo "Subscribing to ${$TOPIC_ARN_S3}"
+awslocal sns subscribe \
+  --topic-arn  $TOPIC_ARN_S3 \
+  --protocol http \
+  --notification-endpoint http://host.docker.internal:8080/ingest/
+
+echo "Subscribing to ${TOPIC_ARN_EVENTS}"
+awslocal sns subscribe \
+  --topic-arn  $TOPIC_ARN_EVENTS \
+  --protocol http \
+  --notification-endpoint http://host.docker.internal:8080/ingest/events
