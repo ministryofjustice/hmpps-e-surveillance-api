@@ -25,6 +25,7 @@ class ResourceSecurityTest : IntegrationTestBase() {
     "GET /test/subscribe/{topic}",
     "GET /test/hello",
     "POST /detect-violation",
+    "GET /notifications",
   )
 
   @Test
