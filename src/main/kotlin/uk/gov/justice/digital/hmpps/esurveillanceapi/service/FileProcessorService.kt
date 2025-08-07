@@ -60,8 +60,8 @@ class FileProcessorService(
           PopUser(
             id = row["id"]?.toLong() ?: 0,
             deliusId = row["delius_id"]?.removeSurrounding("'") ?: "",
-            uniqueDeviceWearerId = row["delius_id"]?.removeSurrounding("'") ?: "",
-            personId = row["delius_id"]?.removeSurrounding("'") ?: "",
+            uniqueDeviceWearerId = row["unique_device_wearer_id"]?.removeSurrounding("'") ?: "",
+            personId = row["person_id"]?.removeSurrounding("'") ?: "",
             givenName = row["given_name"]?.removeSurrounding("'") ?: "",
             familyName = row["family_name"]?.removeSurrounding("'") ?: "",
             alias = row["alias"]?.removeSurrounding("'") ?: "",
@@ -113,9 +113,11 @@ class FileProcessorService(
   }
 
   private fun processFile(bucket: String, key: String) {
+    LOG.info("Data received from file $key for $bucket")
     if (key.contains("pop")) {
       processPosUsers(bucket, key)
     } else if (key.contains("event")) {
+      LOG.info("+++++++++++++++++++Processing file $key")
       processEvents(bucket, key)
     }
   }

@@ -1,8 +1,8 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 
 import org.springframework.stereotype.Service
-import uk.gov.justice.digital.hmpps.esurveillanceapi.data.Event
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.ViolationType
+import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Event
 
 @Service
 class ViolationDetector {
@@ -10,11 +10,11 @@ class ViolationDetector {
     val activeViolations = mutableMapOf<ViolationType, Boolean>()
 
     for (event in events) {
-      ViolationType.fromInitiator(event.eventType)?.let {
+      ViolationType.fromInitiator(event.eventName)?.let {
         activeViolations[it] = true
       }
 
-      ViolationType.fromTerminator(event.eventType)?.let {
+      ViolationType.fromTerminator(event.eventName)?.let {
         if (activeViolations.getOrDefault(it, false)) {
           activeViolations[it] = false
         }

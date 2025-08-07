@@ -35,8 +35,8 @@ enum class ViolationType(
   ;
 
   companion object {
-    fun fromInitiator(eventType: String): ViolationType? = entries.firstOrNull { eventType in it.initiators }
+    fun fromInitiator(eventName: String): ViolationType? = entries.firstOrNull { eventName in it.initiators }
 
-    fun fromTerminator(eventType: String): ViolationType? = entries.firstOrNull { eventType in it.terminators }
+    fun fromTerminator(eventName: String): ViolationType? = entries.firstOrNull { eventName in it.terminators }
   }
 }
