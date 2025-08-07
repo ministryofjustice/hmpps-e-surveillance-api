@@ -3,7 +3,6 @@ package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
