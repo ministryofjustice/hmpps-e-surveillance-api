@@ -36,7 +36,6 @@ class IngestResource(
     @RequestBody rawMessage: String,
     @RequestHeader("x-amz-sns-message-type", required = false) messageType: String?,
   ): ResponseEntity<String> {
-    LOG.info("-------Processing file upload")
     LOG.info("Received SNS MessageType: $messageType")
 
     val outerJson = objectMapper.readTree(rawMessage)
@@ -59,11 +58,9 @@ class IngestResource(
     @RequestBody rawMessage: String,
     @RequestHeader("x-amz-sns-message-type", required = false) messageType: String?,
   ): ResponseEntity<String> {
-    LOG.info("-------Processing Event")
     LOG.info("Received SNS MessageType: $messageType")
 
     val outerJson = objectMapper.readTree(rawMessage)
-    LOG.info("-------Processing Event $outerJson")
     when (messageType) {
       "SubscriptionConfirmation" -> snsSubscriptionService.handleSubscriptionConfirmation(outerJson)
       "Notification" -> eventsProcessorService.processPersonId(outerJson)

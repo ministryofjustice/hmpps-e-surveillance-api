@@ -70,12 +70,9 @@ class EventsProcessorService(
         LOG.info("Violation:  $violation for $dbEvents by user $user ")
         if (violation != null) {
           val violationString = violationDetector.mapViolationTypeToViolation(violation)
-
           if (user != null) {
             val message = generateMessage(user.givenName, violationString, Tone.SUPPORTIVE)
-
             notificationService.saveNotification(personId, violationString.name, message)
-            LOG.info(message)
           } else {
             LOG.info("No person found for personId: $personId")
           }

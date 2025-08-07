@@ -117,7 +117,6 @@ class FileProcessorService(
     if (key.contains("pop")) {
       processPosUsers(bucket, key)
     } else if (key.contains("event")) {
-      LOG.info("+++++++++++++++++++Processing file $key")
       processEvents(bucket, key)
     }
   }
