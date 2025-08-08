@@ -13,9 +13,9 @@ class HealthCheckTest : IntegrationTestBase() {
       .uri("/health")
       .exchange()
       .expectStatus()
-//      .isOk
-//      .expectBody()
-//      .jsonPath("status").isEqualTo("UP")
+      .isOk
+      .expectBody()
+      .jsonPath("status").isEqualTo("UP")
   }
 
   @Test
