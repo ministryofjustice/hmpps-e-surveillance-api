@@ -49,7 +49,7 @@ services:
       - AWS_DEFAULT_REGION=eu-west-2
       - DEFAULT_REGION=eu-west-2
       - DEBUG=1
-      - LOCALSTACK_HOST=localstack:4566
+      - LOCALSTACK_HOST=localhost:4566
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - ./localstack:/var/lib/localstack
