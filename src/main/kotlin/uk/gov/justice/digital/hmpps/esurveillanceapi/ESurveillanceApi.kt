@@ -1,7 +1,6 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
