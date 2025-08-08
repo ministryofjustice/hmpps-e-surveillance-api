@@ -1,4 +1,3 @@
-version: "3"
 services:
   hmpps-e-surveillance-api:
     build:
@@ -9,7 +8,7 @@ services:
     ports:
       - "8080:8080"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ping"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ping" ]
     environment:
       - SERVER_PORT=8080
       - HMPPS_AUTH_URL=http://hmpps-auth:8080/auth
@@ -21,7 +20,6 @@ services:
       - SPRING_DATASOURCE_USERNAME=myuser
       - SPRING_DATASOURCE_PASSWORD=mypassword
 
-
   hmpps-auth:
     image: quay.io/hmpps/hmpps-auth:latest
     networks:
@@ -30,7 +28,7 @@ services:
     ports:
       - "8090:8080"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/auth/health" ]
     environment:
       - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=dev
@@ -57,7 +55,7 @@ services:
       - ./localstack:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
       - ./init:/etc/localstack/init/ready.d
-
+      
   surveillance-db:
     image: postgres:15
     container_name: surveillance-db
@@ -71,6 +69,10 @@ services:
       - "5432:5432"
     volumes:
       - ./init/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-
+      
 networks:
   hmpps:
+
+
+volumes:
+  postgres-data:

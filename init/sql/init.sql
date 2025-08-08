@@ -9,3 +9,18 @@ CREATE TABLE IF NOT EXISTS pop_users (
     created_at VARCHAR(100),
     toy BOOLEAN
 );
+
+CREATE TABLE IF NOT EXISTS events (
+    id SERIAL PRIMARY KEY,
+    person_id VARCHAR(255) NOT NULL,
+    event_name VARCHAR(255) NOT NULL,
+    timestamp VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+    id BIGSERIAL PRIMARY KEY,
+    person_id VARCHAR(255) NOT NULL,
+    violation VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    timestamp TIMESTAMP NOT NULL
+);
