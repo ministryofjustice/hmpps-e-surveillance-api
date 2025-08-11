@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS pop_users (
+CREATE TABLE IF NOT EXISTS persons (
     id BIGINT PRIMARY KEY,
     delius_id VARCHAR(100),
     unique_device_wearer_id VARCHAR(100),
