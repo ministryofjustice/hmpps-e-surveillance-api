@@ -9,7 +9,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.EventPayload
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.SnsPayload
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Event
-import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.PopUser
+import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.EventRepository
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.UserRepository
 import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
@@ -64,7 +64,7 @@ class EventsProcessorService(
         eventRepository.saveAll(eventData)
         LOG.info("Saved ${eventData.size} events for personId: $personId")
         val dbEvents = eventRepository.findByPersonIdOrderByTimestampAsc(personId)
-        val user: PopUser? = userRepository.findByPersonId(personId)
+        val user: Persons? = userRepository.findByPersonId(personId)
 
         val violation = violationDetector.detectViolation(dbEvents)
         LOG.info("Violation:  $violation for $dbEvents by user $user ")

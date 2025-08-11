@@ -5,8 +5,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "pop_users")
-data class PopUser(
+@Table(name = "persons")
+data class Persons(
   @Id
   val id: Long = 0,
   val deliusId: String,
