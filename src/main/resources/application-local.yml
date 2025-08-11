@@ -11,8 +11,8 @@ aws:
     secretKey: test
   region: eu-west-2
   topic-arn:
-    events: "arn:aws:sns:eu-west-2:000000000000:hmpps-surveillance-events-topic"
-    file-upload: "arn:aws:sns:eu-west-2:000000000000:hmpps-surveillance-file-upload-topic"
+    events: "arn:aws:sns:eu-west-2:000000000000:hmpps-e-surveillance-dev-person-id-sns-topic"
+    file-upload: "arn:aws:sns:eu-west-2:000000000000:hmpps-e-surveillance-dev-file-upload-sns-topic"
 
 end-point:
   ingest: "http://hmpps-e-surveillance-api:8080/ingest/"
