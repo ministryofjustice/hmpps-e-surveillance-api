@@ -33,8 +33,8 @@ class SubscriptionResource {
   @Value("\${aws.credentials.secretKey}")
   private lateinit var secretKey: String
 
-  @Value("\${aws.topic-arn.s3}")
-  private lateinit var s3TopicArn: String
+  @Value("\${aws.topic-arn.file-upload}")
+  private lateinit var fileUploadTopicArn: String
 
   @Value("\${aws.topic-arn.events}")
   private lateinit var eventsTopicArn: String
@@ -49,9 +49,9 @@ class SubscriptionResource {
   fun subscribe(@PathVariable topic: String) {
     LOG.info("Received subscription request for: $topic")
     val snsClient = buildSnsClient()
-    if (topic.contains("s3")) {
+    if (topic.contains("file-upload")) {
       val subscribeRequest = SubscribeRequest.builder()
-        .topicArn(s3TopicArn)
+        .topicArn(fileUploadTopicArn)
         .protocol("http")
         .endpoint(ingestEndPoint)
         .build()
