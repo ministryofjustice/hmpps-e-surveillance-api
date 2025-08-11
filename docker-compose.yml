@@ -57,7 +57,7 @@ services:
       - ./init:/etc/localstack/init/ready.d
       
   surveillance-db:
-    image: postgres:15
+    image: postgres:17.4
     container_name: surveillance-db
     networks:
       - hmpps
