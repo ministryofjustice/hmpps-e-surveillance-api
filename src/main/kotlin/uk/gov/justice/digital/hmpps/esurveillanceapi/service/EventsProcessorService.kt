@@ -11,14 +11,14 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.data.SnsPayload
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Event
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.EventRepository
-import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.UserRepository
+import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.PersonsRepository
 import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
 
 @Service
 class EventsProcessorService(
   private val s3ClientBuilderService: S3ClientBuilderService,
   private val eventRepository: EventRepository,
-  private val userRepository: UserRepository,
+  private val personsRepository: PersonsRepository,
   private val violationDetector: ViolationDetector,
   private val notificationService: NotificationService,
 ) {
@@ -64,7 +64,7 @@ class EventsProcessorService(
         eventRepository.saveAll(eventData)
         LOG.info("Saved ${eventData.size} events for personId: $personId")
         val dbEvents = eventRepository.findByPersonIdOrderByTimestampAsc(personId)
-        val user: Persons? = userRepository.findByPersonId(personId)
+        val user: Persons? = personsRepository.findByPersonId(personId)
 
         val violation = violationDetector.detectViolation(dbEvents)
         LOG.info("Violation:  $violation for $dbEvents by user $user ")

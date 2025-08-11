@@ -14,7 +14,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import software.amazon.awssdk.services.sns.SnsClient
 import software.amazon.awssdk.services.sns.model.PublishRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
-import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.UserRepository
+import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.PersonsRepository
 import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
 import java.net.URI
 import kotlin.text.removeSurrounding
@@ -22,7 +22,7 @@ import kotlin.text.toLong
 
 @Service
 class FileProcessorService(
-  private val userRepository: UserRepository,
+  private val personsRepository: PersonsRepository,
   private val s3ClientBuilderService: S3ClientBuilderService,
 ) {
   @Value("\${aws.s3.endpoint}")
@@ -70,7 +70,7 @@ class FileProcessorService(
           )
         }
 
-        userRepository.saveAll(persons)
+        personsRepository.saveAll(persons)
       }
     } catch (e: Exception) {
       LOG.error("Error while processing pop file: ${e.message}")
