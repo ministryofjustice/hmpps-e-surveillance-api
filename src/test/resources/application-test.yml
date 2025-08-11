@@ -32,7 +32,7 @@ aws:
   region: eu-west-2
   topic-arn:
     events: "arn:aws:sns:eu-west-2:000000000000:hmpps-surveillance-events-topic"
-    s3: "arn:aws:sns:eu-west-2:000000000000:hmpps-surveillance-file-upload-topic"
+    file-upload: "arn:aws:sns:eu-west-2:000000000000:hmpps-surveillance-file-upload-topic"
 
 end-point:
   ingest: "http://hmpps-e-surveillance-api:8080/ingest/"
