@@ -58,7 +58,7 @@ class SubscriptionResource {
 
       val subscribeResponse = snsClient.subscribe(subscribeRequest)
       LOG.info("Subscribed: ${subscribeResponse.subscriptionArn()}")
-    } else if (topic.contains("event")) {
+    } else if (topic.contains("person")) {
       val subscribeRequest = SubscribeRequest.builder()
         .topicArn(eventsTopicArn)
         .protocol("http")
