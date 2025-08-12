@@ -41,5 +41,4 @@ class PersonsResource(
 
     return personsRepository.findAll(spec, pageable)
   }
-
 }
