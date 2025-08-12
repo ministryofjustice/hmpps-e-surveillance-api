@@ -25,9 +25,6 @@ class FileProcessorService(
   private val personsRepository: PersonsRepository,
   private val s3ClientBuilderService: S3ClientBuilderService,
 ) {
-  @Value("\${aws.s3.endpoint}")
-  private lateinit var s3Endpoint: String
-
   @Value("\${aws.credentials.accessKey}")
   private lateinit var accessKey: String
 
