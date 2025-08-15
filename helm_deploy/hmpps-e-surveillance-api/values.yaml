@@ -32,9 +32,9 @@ generic-service:
 
     # postgres connection settings
     rds-spring:
-      SPRING_DATASOURCE_USERNAME: "database_username"
-      SPRING_DATASOURCE_PASSWORD: "database_password"
-      SPRING_DATASOURCE_URL: "database_url"
+      SPRING_DATASOURCE_USERNAME: "SPRING_DATASOURCE_USERNAME"
+      SPRING_DATASOURCE_PASSWORD: "SPRING_DATASOURCE_PASSWORD"
+      SPRING_DATASOURCE_URL: "SPRING_DATASOURCE_URL"
 
   allowlist:
     groups:
