@@ -32,8 +32,6 @@ generic-service:
 
       # postgres connection settings
       rds-postgresql:
-        DB_HOST: "rds_instance_endpoint"
-        DB_NAME: "database_name"
         SPRING_DATASOURCE_USERNAME: "database_username"
         SPRING_DATASOURCE_PASSWORD: "database_password"
         SPRING_DATASOURCE_URL: "database_url"
