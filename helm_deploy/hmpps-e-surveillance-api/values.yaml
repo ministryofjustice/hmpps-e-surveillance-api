@@ -19,6 +19,8 @@ generic-service:
     JAVA_OPTS: "-Xmx512m"
     SERVER_PORT: "8080"
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.json
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://${DB_HOST}/${DB_NAME}?sslmode=verify-full"
+
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
@@ -28,6 +30,14 @@ generic-service:
   namespace_secrets:
     hmpps-e-surveillance-api-application-insights:
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
+
+      # postgres connection settings
+      rds-postgresql:
+        DB_HOST: "rds_instance_endpoint"
+        DB_NAME: "database_name"
+        SPRING_DATASOURCE_USERNAME: "database_username"
+        SPRING_DATASOURCE_PASSWORD: "database_password"
+        SPRING_DATASOURCE_URL: "jdbc:postgresql://${DB_HOST}/${DB_NAME}"
 
   allowlist:
     groups:
