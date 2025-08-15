@@ -36,7 +36,7 @@ generic-service:
         DB_NAME: "database_name"
         SPRING_DATASOURCE_USERNAME: "database_username"
         SPRING_DATASOURCE_PASSWORD: "database_password"
-        SPRING_DATASOURCE_URL: "jdbc:postgresql://${DB_HOST}/${DB_NAME}"
+        SPRING_DATASOURCE_URL: "database_url"
 
   allowlist:
     groups:
