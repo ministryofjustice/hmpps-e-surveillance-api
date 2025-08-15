@@ -30,11 +30,11 @@ generic-service:
     hmpps-e-surveillance-api-application-insights:
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
 
-      # postgres connection settings
-      rds-spring:
-        SPRING_DATASOURCE_USERNAME: "database_username"
-        SPRING_DATASOURCE_PASSWORD: "database_password"
-        SPRING_DATASOURCE_URL: "database_url"
+    # postgres connection settings
+    rds-spring:
+      SPRING_DATASOURCE_USERNAME: "database_username"
+      SPRING_DATASOURCE_PASSWORD: "database_password"
+      SPRING_DATASOURCE_URL: "database_url"
 
   allowlist:
     groups:
