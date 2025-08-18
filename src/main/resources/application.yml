@@ -73,3 +73,10 @@ management:
     info:
       cache:
         time-to-live: 2000ms
+
+aws:
+  s3:
+    endpoint: https://s3.region.amazonaws.com
+  sns:
+    endpoint: https://sns.region.amazonaws.com
+  region: eu-west-2

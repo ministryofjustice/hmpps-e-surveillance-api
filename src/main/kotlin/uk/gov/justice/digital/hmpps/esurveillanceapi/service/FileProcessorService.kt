@@ -120,11 +120,6 @@ class FileProcessorService(
 
   private fun buildSnsClient(): SnsClient = SnsClient.builder()
     .endpointOverride(URI.create(snsEndpoint))
-    .credentialsProvider(
-      StaticCredentialsProvider.create(
-        AwsBasicCredentials.create(accessKey, secretKey),
-      ),
-    )
     .region(Region.of(region))
     .build()
 
