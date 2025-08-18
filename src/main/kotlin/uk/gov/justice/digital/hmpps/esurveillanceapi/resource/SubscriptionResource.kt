@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.sns.SnsClient
 import software.amazon.awssdk.services.sns.model.SubscribeRequest
@@ -72,11 +70,6 @@ class SubscriptionResource {
 
   private fun buildSnsClient(): SnsClient = SnsClient.builder()
     .endpointOverride(URI.create(snsEndpoint))
-    .credentialsProvider(
-      StaticCredentialsProvider.create(
-        AwsBasicCredentials.create(accessKey, secretKey),
-      ),
-    )
     .region(Region.of(region))
     .build()
 }
