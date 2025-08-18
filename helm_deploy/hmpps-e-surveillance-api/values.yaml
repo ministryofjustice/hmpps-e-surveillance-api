@@ -27,7 +27,7 @@ generic-service:
           name: file-upload-sns-topic
           key: arn
 
-    AWS_TOPIC_ARN_PERSON_ID:
+    AWS_TOPIC_ARN_EVENTS:
       valueFrom:
         secretKeyRef:
           name: person-id-sns-topic
