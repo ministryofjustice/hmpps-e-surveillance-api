@@ -75,8 +75,8 @@ management:
         time-to-live: 2000ms
 
 aws:
-  s3:
-    endpoint: https://s3.region.amazonaws.com
-  sns:
-    endpoint: https://sns.region.amazonaws.com
   region: eu-west-2
+  s3:
+    endpoint: https://s3.${aws.region}.amazonaws.com
+  sns:
+    endpoint: https://sns.${aws.region}.amazonaws.com
