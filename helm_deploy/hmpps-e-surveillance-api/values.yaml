@@ -1,6 +1,6 @@
 generic-service:
   nameOverride: hmpps-e-surveillance-api
-  productId: "HMPPS547" # productId for the product that this belongs too, i.e. DPS001, see README.md for details
+  productId: "HMPPS547" # productId for the product that this belongs too, i.e. DPS001
 
   replicaCount: 4
 
@@ -20,12 +20,27 @@ generic-service:
     SERVER_PORT: "8080"
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.json
 
+    # SNS Topics (Spring will map these to aws.topic-arn.*)
+    AWS_TOPIC_ARN_FILE_UPLOAD:
+      valueFrom:
+        secretKeyRef:
+          name: file-upload-sns-topic
+          key: arn
+
+    AWS_TOPIC_ARN_PERSON_ID:
+      valueFrom:
+        secretKeyRef:
+          name: person-id-sns-topic
+          key: arn
+
+    # S3 bucket (Spring will map this to aws.bucket.people-and-events)
+    AWS_BUCKET_PEOPLE_AND_EVENTS:
+      valueFrom:
+        secretKeyRef:
+          name: people-and-events-bucket
+          key: name
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
-  # namespace_secrets:
-  #   [name of kubernetes secret]:
-  #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
-
   namespace_secrets:
     hmpps-e-surveillance-api-application-insights:
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
