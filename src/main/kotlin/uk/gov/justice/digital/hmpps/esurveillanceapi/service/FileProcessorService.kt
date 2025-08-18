@@ -23,12 +23,6 @@ class FileProcessorService(
   private val personsRepository: PersonsRepository,
   private val s3ClientBuilderService: S3ClientBuilderService,
 ) {
-  @Value("\${aws.credentials.accessKey}")
-  private lateinit var accessKey: String
-
-  @Value("\${aws.credentials.secretKey}")
-  private lateinit var secretKey: String
-
   @Value("\${aws.region}")
   private lateinit var region: String
 

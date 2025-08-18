@@ -25,12 +25,6 @@ class SubscriptionResource {
   @Value("\${aws.region}")
   private lateinit var region: String
 
-  @Value("\${aws.credentials.accessKey}")
-  private lateinit var accessKey: String
-
-  @Value("\${aws.credentials.secretKey}")
-  private lateinit var secretKey: String
-
   @Value("\${aws.topic-arn.file-upload}")
   private lateinit var fileUploadTopicArn: String
 
