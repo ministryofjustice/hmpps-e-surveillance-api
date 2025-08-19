@@ -10,8 +10,8 @@ generic-service:
   env:
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: "applicationinsights.dev.json"
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
-    INGEST: "https://e-surveillance-api-dev.hmpps.service.justice.gov.uk/ingest"
-    INGEST_EVENTS: "https://e-surveillance-api-dev.hmpps.service.justice.gov.uk/ingest/events"
+    END_POINT_INGEST: "https://e-surveillance-api-dev.hmpps.service.justice.gov.uk/ingest"
+    END_POINT_INGEST_EVENTS: "https://e-surveillance-api-dev.hmpps.service.justice.gov.uk/ingest/events"
 
 # CloudPlatform AlertManager receiver to route prometheus alerts to slack
 # See https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts
