@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile
 import uk.gov.justice.hmpps.kotlin.auth.dsl.ResourceServerConfigurationCustomizer
 
 @Configuration
-@Profile("local")
+@Profile("dev", "local")
 class SecurityConfig {
   @Bean
   fun resourceServerCustomizer() = ResourceServerConfigurationCustomizer {
