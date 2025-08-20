@@ -12,7 +12,6 @@ generic-service:
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     END_POINT_INGEST: "https://e-surveillance-api-dev.hmpps.service.justice.gov.uk/ingest"
     END_POINT_INGEST_EVENTS: "https://e-surveillance-api-dev.hmpps.service.justice.gov.uk/ingest/events"
-    SPRING_PROFILES_ACTIVE: "dev"
 
 # CloudPlatform AlertManager receiver to route prometheus alerts to slack
 # See https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts
