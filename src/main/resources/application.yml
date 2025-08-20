@@ -8,7 +8,7 @@ spring:
   codec:
     max-in-memory-size: 10MB
   profiles:
-    active: dev, local
+    active: local
 
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
