@@ -41,7 +41,7 @@ class SubscriptionResource {
   fun subscribe(@PathVariable topic: String) {
     LOG.info("Received subscription request for: $topic")
     val snsClient = buildSnsClient()
-    if (topic.contains("file-upload")) {
+    if (topic.contains("8981184ea3c74a9ee7121999e7f78b43")) {
       val subscribeRequest = SubscribeRequest.builder()
         .topicArn(fileUploadTopicArn)
         .protocol("http")
@@ -50,7 +50,7 @@ class SubscriptionResource {
 
       val subscribeResponse = snsClient.subscribe(subscribeRequest)
       LOG.info("Subscribed: ${subscribeResponse.subscriptionArn()}")
-    } else if (topic.contains("person")) {
+    } else if (topic.contains("15cb40d70c799eb857f390669c0375be")) {
       val subscribeRequest = SubscribeRequest.builder()
         .topicArn(eventsTopicArn)
         .protocol("http")
