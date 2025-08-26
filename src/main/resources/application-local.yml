@@ -23,3 +23,21 @@ spring:
     url: "jdbc:postgresql://surveillance-db:5432/esurveillance"
     username: myuser
     password: mypassword
+
+hmpps:
+  sqs:
+    provider: localstack
+    queues:
+      fileuploadqueue:
+        queueName: file-upload-queue
+        dlqName: file-upload-dlq
+        subscribeTopicId: fileuploadtopic
+      personidqueue:
+        queueName: person-id-queue
+        dlqName: person-id-dlq
+        subscribeTopicId: personidtopic
+    topics:
+      fileuploadtopic:
+        arn: arn:aws:sns:eu-west-2:000000000000:file-upload-topic
+      personidtopic:
+        arn: arn:aws:sns:eu-west-2:000000000000:person-id-topic

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-readonly SNS_TOPIC_FILE_UPLOAD="hmpps-e-surveillance-dev-file-upload-sns-topic"
-readonly SNS_TOPIC_EVENTS="hmpps-e-surveillance-dev-person-id-sns-topic"
+readonly SNS_TOPIC_FILE_UPLOAD="file-upload-topic"
+readonly SNS_TOPIC_EVENTS="person-id-topic"
 
-readonly PEOPLE_AND_EVENTS_BUCKET="hmpps-e-surveillance-dev-people-and-events-bucket"
+readonly PEOPLE_AND_EVENTS_BUCKET="people-and-events-bucket"
 echo "Creating S3 bucket, SNS topic in LocalStack..."
 
 awslocal s3 mb s3://$PEOPLE_AND_EVENTS_BUCKET
