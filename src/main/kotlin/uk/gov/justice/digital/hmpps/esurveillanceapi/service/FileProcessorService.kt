@@ -34,7 +34,7 @@ class FileProcessorService(
 
   private val objectMapper = jacksonObjectMapper()
 
-  fun processPosUsers(bucket: String, key: String) {
+  fun processPersons(bucket: String, key: String) {
     val s3Client = s3ClientBuilderService.buildS3Client()
     val request = GetObjectRequest.builder()
       .bucket(bucket)
@@ -103,8 +103,8 @@ class FileProcessorService(
 
   private fun processFile(bucket: String, key: String) {
     LOG.info("Data received from file $key for $bucket")
-    if (key.contains("pop")) {
-      processPosUsers(bucket, key)
+    if (key.contains("person")) {
+      processPersons(bucket, key)
     } else if (key.contains("event")) {
       processEvents(bucket, key)
     }
