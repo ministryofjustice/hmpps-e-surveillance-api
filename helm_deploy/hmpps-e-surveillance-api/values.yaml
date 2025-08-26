@@ -18,6 +18,7 @@ generic-service:
   env:
     JAVA_OPTS: "-Xmx512m"
     SERVER_PORT: "8080"
+    APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY)"
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.json
 
     # SNS Topics (Spring will map these to aws.topic-arn.*)
@@ -44,6 +45,19 @@ generic-service:
   namespace_secrets:
     hmpps-e-surveillance-api-application-insights:
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
+      APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
+    file-upload-sqs-instance-output:
+      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME: "fileuploadqueue"
+    file-upload-queue-sqs-dl-instance-output:
+      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME: "fileuploadDlq"
+    person-id-queue-sqs-instance-output:
+      HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME: "personidqueue"
+    personid-queue-sqs-dl-instance-output:
+      HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME: "personidDlq"
+    file-upload-topic:
+      HMPPS_SQS_TOPICS_FILEUPLOADTOPIC_TOPIC_ARN: "file_upload_arn"
+    personid-topic:
+      HMPPS_SQS_TOPICS_PERSONIDTOPIC_TOPIC_ARN: "person_id_arn"
 
     # postgres connection settings
     rds-spring:
@@ -54,6 +68,12 @@ generic-service:
   allowlist:
     groups:
       - internal
+    office: "217.33.148.210/32"
+    health-kick: "35.177.252.195/32"
+    mojvpn: "81.134.202.29/32"
+    cloudplatform-live1-1: "35.178.209.113/32"
+    cloudplatform-live1-2: "3.8.51.207/32"
+    cloudplatform-live1-3: "35.177.252.54/32"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-e-surveillance-api
