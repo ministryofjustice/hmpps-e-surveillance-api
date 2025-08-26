@@ -2,6 +2,7 @@ services:
   hmpps-e-surveillance-api:
     build:
       context: .
+    network_mode: "host"
     networks:
       - hmpps
     container_name: hmpps-e-surveillance-api
