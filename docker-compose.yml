@@ -1,38 +1,38 @@
 services:
-  hmpps-e-surveillance-api:
-    build:
-      context: .
-    networks:
-      - hmpps
-    container_name: hmpps-e-surveillance-api
-    ports:
-      - "8081:8080"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ping" ]
-    environment:
-      - SERVER_PORT=8080
-      - HMPPS_AUTH_URL=http://hmpps-auth:8080/auth
-      - SPRING_PROFILES_ACTIVE=local
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
-      - AWS_DEFAULT_REGION=eu-west-2
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://surveillance-db:5432/esurveillance
-      - SPRING_DATASOURCE_USERNAME=myuser
-      - SPRING_DATASOURCE_PASSWORD=mypassword
+#  hmpps-e-surveillance-api:
+#    build:
+#      context: .
+#    networks:
+#      - hmpps
+#    container_name: hmpps-e-surveillance-api
+#    ports:
+#      - "8081:8080"
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ping" ]
+#    environment:
+#      - SERVER_PORT=8080
+#      - HMPPS_AUTH_URL=http://hmpps-auth:8080/auth
+#      - SPRING_PROFILES_ACTIVE=local
+#      - AWS_ACCESS_KEY_ID=test
+#      - AWS_SECRET_ACCESS_KEY=test
+#      - AWS_DEFAULT_REGION=eu-west-2
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://surveillance-db:5432/esurveillance
+#      - SPRING_DATASOURCE_USERNAME=myuser
+#      - SPRING_DATASOURCE_PASSWORD=mypassword
 
-  hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth:latest
-    networks:
-      - hmpps
-    container_name: hmpps-auth
-    ports:
-      - "8090:8080"
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/auth/health" ]
-    environment:
-      - SERVER_PORT=8080
-      - SPRING_PROFILES_ACTIVE=dev
-      - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
+#  hmpps-auth:
+#    image: quay.io/hmpps/hmpps-auth:latest
+#    networks:
+#      - hmpps
+#    container_name: hmpps-auth
+#    ports:
+#      - "8090:8080"
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:8080/auth/health" ]
+#    environment:
+#      - SERVER_PORT=8080
+#      - SPRING_PROFILES_ACTIVE=dev
+#      - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
 
   localstack:
     image: localstack/localstack:latest

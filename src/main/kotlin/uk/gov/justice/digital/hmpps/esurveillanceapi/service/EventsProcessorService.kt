@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.serialization.json.Json
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.EventPayload
@@ -12,7 +14,6 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Event
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.EventRepository
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.PersonsRepository
-import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
 
 @Service
 class EventsProcessorService(
@@ -22,6 +23,10 @@ class EventsProcessorService(
   private val violationDetector: ViolationDetector,
   private val notificationService: NotificationService,
 ) {
+
+  companion object {
+    val LOG: Logger = LoggerFactory.getLogger(this::class.java)
+  }
 
   fun processPersonId(outerJson: JsonNode) {
     val mapper = jacksonObjectMapper()

@@ -1,13 +1,17 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 
 import com.fasterxml.jackson.databind.JsonNode
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
 import java.net.HttpURLConnection
 import java.net.URI
 
 @Service
 class SnsSubscriptionService {
+  companion object {
+    val LOG: Logger = LoggerFactory.getLogger(this::class.java)
+  }
 
   fun handleSubscriptionConfirmation(outerJson: JsonNode) {
     val url = outerJson["SubscribeURL"]?.asText()

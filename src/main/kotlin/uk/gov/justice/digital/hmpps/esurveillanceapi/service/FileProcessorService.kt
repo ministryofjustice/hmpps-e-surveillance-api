@@ -5,6 +5,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.regions.Region
@@ -13,7 +15,6 @@ import software.amazon.awssdk.services.sns.SnsClient
 import software.amazon.awssdk.services.sns.model.PublishRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.PersonsRepository
-import uk.gov.justice.digital.hmpps.esurveillanceapi.resource.IngestResource.Companion.LOG
 import java.net.URI
 import kotlin.text.removeSurrounding
 import kotlin.text.toLong
@@ -23,6 +24,10 @@ class FileProcessorService(
   private val personsRepository: PersonsRepository,
   private val s3ClientBuilderService: S3ClientBuilderService,
 ) {
+  companion object {
+    val LOG: Logger = LoggerFactory.getLogger(this::class.java)
+  }
+
   @Value("\${aws.region}")
   private lateinit var region: String
 
@@ -42,7 +47,7 @@ class FileProcessorService(
       .build()
     try {
       s3Client.getObject(request).use { response ->
-        LOG.info("Data received from pop CSV file: $key")
+        LOG.info("Data received from person CSV file: $key")
 
         val data = response.bufferedReader().readText()
         val persons: List<Persons> = csvReader().readAllWithHeader(data).map { row ->

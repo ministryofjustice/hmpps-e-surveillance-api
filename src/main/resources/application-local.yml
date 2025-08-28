@@ -3,20 +3,16 @@ hmpps-auth:
 
 aws:
   s3:
-    endpoint: http://host.docker.internal:4566
+    endpoint: http://localhost:4566
   sns:
-    endpoint: http://localstack:4566
+    endpoint: http://localhost:4566
   credentials:
     accessKey: test
     secretKey: test
   region: eu-west-2
   topic-arn:
-    events: "arn:aws:sns:eu-west-2:000000000000:hmpps-e-surveillance-dev-person-id-sns-topic"
-    file-upload: "arn:aws:sns:eu-west-2:000000000000:hmpps-e-surveillance-dev-file-upload-sns-topic"
-
-end-point:
-  ingest: "http://hmpps-e-surveillance-api:8080/ingest/"
-  ingest-events: "http://hmpps-e-surveillance-api:8080/ingest/events"
+    events: "arn:aws:sns:eu-west-2:000000000000:person-id-topic"
+    file-upload: "arn:aws:sns:eu-west-2:000000000000:file-upload-topic"
 
 spring:
   datasource:
