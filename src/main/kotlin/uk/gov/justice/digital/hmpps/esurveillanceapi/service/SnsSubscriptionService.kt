@@ -13,8 +13,7 @@ class SnsSubscriptionService {
     val url = outerJson["SubscribeURL"]?.asText()
     LOG.info("Confirming subscription at: $url")
     try {
-      val subscribeUrl = url?.replace("localhost", "host.docker.internal")
-      val connection = URI(subscribeUrl ?: error("subscribeUrl is null")).toURL().openConnection() as HttpURLConnection
+      val connection = URI(url ?: error("subscribeUrl is null")).toURL().openConnection() as HttpURLConnection
       connection.requestMethod = "GET"
       val responseCode = connection.responseCode
       LOG.info("Subscription confirmed. Response code: $responseCode")
