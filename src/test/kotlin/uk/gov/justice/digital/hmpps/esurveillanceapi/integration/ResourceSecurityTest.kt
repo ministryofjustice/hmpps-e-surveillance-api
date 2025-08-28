@@ -1,6 +1,6 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.integration
 
-import org.assertj.core.api.Assertions.assertThat
+//import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
