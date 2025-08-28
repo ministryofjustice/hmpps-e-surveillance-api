@@ -29,6 +29,8 @@ aws:
   region: eu-west-2
 
 hmpps.sqs:
+    provider: localstack
+    endpointUrl: http://localhost:4566
     queues:
       fileuploadqueue:
         queueName: ${random.uuid}
