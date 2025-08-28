@@ -22,32 +22,24 @@ spring:
     baseline-on-migrate: false
 
 aws:
-  s3:
-    endpoint: http://host.docker.internal:4566
-  sns:
-    endpoint: http://localstack:4566
+  provider: localstack
   credentials:
     accessKey: test
     secretKey: test
   region: eu-west-2
-  topic-arn:
-    events: "arn:aws:sns:eu-west-2:000000000000:person-id-topic"
-    file-upload: "arn:aws:sns:eu-west-2:000000000000:file-upload-topic"
 
-hmpps:
-  sqs:
-    provider: localstack
+hmpps.sqs:
     queues:
       fileuploadqueue:
-        queueName: file-upload-queue
-        dlqName: file-upload-dlq
+        queueName: ${random.uuid}
+        dlqName: ${random.uuid}
         subscribeTopicId: fileuploadtopic
       personidqueue:
-        queueName: person-id-queue
-        dlqName: person-id-dlq
+        queueName: ${random.uuid}
+        dlqName: ${random.uuid}
         subscribeTopicId: personidtopic
     topics:
       fileuploadtopic:
-        arn: arn:aws:sns:eu-west-2:000000000000:file-upload-topic
+        arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
       personidtopic:
-        arn: arn:aws:sns:eu-west-2:000000000000:person-id-topic
+        arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}

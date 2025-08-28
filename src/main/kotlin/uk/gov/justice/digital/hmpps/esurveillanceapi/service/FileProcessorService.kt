@@ -9,38 +9,31 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import software.amazon.awssdk.regions.Region
+import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import software.amazon.awssdk.services.sns.SnsClient
 import software.amazon.awssdk.services.sns.model.PublishRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.PersonsRepository
-import java.net.URI
 import kotlin.text.removeSurrounding
 import kotlin.text.toLong
 
 @Service
 class FileProcessorService(
   private val personsRepository: PersonsRepository,
-  private val s3ClientBuilderService: S3ClientBuilderService,
+  private val s3Client: S3Client,
+  private val snsClient: SnsClient,
 ) {
   companion object {
     val LOG: Logger = LoggerFactory.getLogger(this::class.java)
   }
 
-  @Value("\${aws.region}")
-  private lateinit var region: String
-
-  @Value("\${aws.sns.endpoint}")
-  private lateinit var snsEndpoint: String
-
-  @Value("\${aws.topic-arn.events}")
-  private lateinit var eventsTopicArn: String
+  @Value("\${hmpps.sqs.topics.personidtopic.arn}")
+  private lateinit var personIdTopicArn: String
 
   private val objectMapper = jacksonObjectMapper()
 
   fun processPersons(bucket: String, key: String) {
-    val s3Client = s3ClientBuilderService.buildS3Client()
     val request = GetObjectRequest.builder()
       .bucket(bucket)
       .key(key)
@@ -72,12 +65,10 @@ class FileProcessorService(
   }
 
   fun processEvents(bucket: String, key: String) {
-    val s3Client = s3ClientBuilderService.buildS3Client()
     val request = GetObjectRequest.builder()
       .bucket(bucket)
       .key(key)
       .build()
-    val snsClient = buildSnsClient()
     s3Client.getObject(request).use { response ->
       LOG.info("Data received from events CSV file: $key")
 
@@ -96,7 +87,7 @@ class FileProcessorService(
           val messageJson = Json.encodeToString(messagePayload)
           val request = PublishRequest.builder()
             .message(messageJson)
-            .topicArn(eventsTopicArn)
+            .topicArn(personIdTopicArn)
             .build()
 
           val response = snsClient.publish(request)
@@ -114,11 +105,6 @@ class FileProcessorService(
       processEvents(bucket, key)
     }
   }
-
-  private fun buildSnsClient(): SnsClient = SnsClient.builder()
-    .endpointOverride(URI.create(snsEndpoint))
-    .region(Region.of(region))
-    .build()
 
   fun processUploadedFile(outerJson: JsonNode) {
     val messageJson = outerJson["Message"]?.asText()

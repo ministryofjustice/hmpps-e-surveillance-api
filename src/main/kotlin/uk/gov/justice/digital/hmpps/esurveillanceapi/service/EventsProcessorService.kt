@@ -7,6 +7,7 @@ import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.EventPayload
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.SnsPayload
@@ -17,11 +18,11 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.PersonsRepositor
 
 @Service
 class EventsProcessorService(
-  private val s3ClientBuilderService: S3ClientBuilderService,
   private val eventRepository: EventRepository,
   private val personsRepository: PersonsRepository,
   private val violationDetector: ViolationDetector,
   private val notificationService: NotificationService,
+  private val s3Client: S3Client,
 ) {
 
   companion object {
@@ -39,7 +40,6 @@ class EventsProcessorService(
     val bucket = event.bucket
     val fileName = event.source
 
-    val s3Client = s3ClientBuilderService.buildS3Client()
     val request = GetObjectRequest.builder()
       .bucket(bucket)
       .key(fileName)

@@ -2,17 +2,10 @@ hmpps-auth:
   url: "http://localhost:8090/auth"
 
 aws:
-  s3:
-    endpoint: http://localhost:4566
-  sns:
-    endpoint: http://localhost:4566
   credentials:
     accessKey: test
     secretKey: test
   region: eu-west-2
-  topic-arn:
-    events: "arn:aws:sns:eu-west-2:000000000000:person-id-topic"
-    file-upload: "arn:aws:sns:eu-west-2:000000000000:file-upload-topic"
 
 spring:
   datasource:
