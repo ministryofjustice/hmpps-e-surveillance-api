@@ -23,14 +23,14 @@ class ResourceServerConfiguration {
     csrf { disable() }
     authorizeHttpRequests {
       listOf(
-          "/webjars/**",
-          "/favicon.ico",
-          "/health/**",
-          "/info",
-          "/v3/api-docs/**",
-          "/swagger-ui/**",
-          "/swagger-ui.html",
-          "/queue-admin/retry-all-dlqs",
+        "/webjars/**",
+        "/favicon.ico",
+        "/health/**",
+        "/info",
+        "/v3/api-docs/**",
+        "/swagger-ui/**",
+        "/swagger-ui.html",
+        "/queue-admin/retry-all-dlqs",
       ).forEach { authorize(it, permitAll) }
       authorize(anyRequest, authenticated)
     }
