@@ -17,18 +17,16 @@ class SnsClientConfig {
 
   @Bean
   @Profile("local")
-  fun localstackSnsClient(): SnsClient =
-    SnsClient.builder()
-      .region(Region.of(region))
-      .endpointOverride(URI.create("http://localhost:4566"))
-      .credentialsProvider(DefaultCredentialsProvider.create())
-      .build()
+  fun localstackSnsClient(): SnsClient = SnsClient.builder()
+    .region(Region.of(region))
+    .endpointOverride(URI.create("http://localhost:4566"))
+    .credentialsProvider(DefaultCredentialsProvider.create())
+    .build()
 
   @Bean
   @Profile("!local")
-  fun awsSnsClient(): SnsClient =
-    SnsClient.builder()
-      .region(Region.of(region))
-      .credentialsProvider(DefaultCredentialsProvider.create())
-      .build()
+  fun awsSnsClient(): SnsClient = SnsClient.builder()
+    .region(Region.of(region))
+    .credentialsProvider(DefaultCredentialsProvider.create())
+    .build()
 }

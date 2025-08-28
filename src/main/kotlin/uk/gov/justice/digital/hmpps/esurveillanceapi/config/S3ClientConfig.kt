@@ -18,23 +18,21 @@ class S3ClientConfig {
 
   @Bean
   @Profile("local")
-  fun localstackS3Client(): S3Client =
-    S3Client.builder()
-      .region(Region.of(region))
-      .endpointOverride(URI.create("http://localhost:4566"))
-      .credentialsProvider(DefaultCredentialsProvider.create())
-      .serviceConfiguration(
-        S3Configuration.builder()
-          .pathStyleAccessEnabled(true)
-          .build()
-      )
-      .build()
+  fun localstackS3Client(): S3Client = S3Client.builder()
+    .region(Region.of(region))
+    .endpointOverride(URI.create("http://localhost:4566"))
+    .credentialsProvider(DefaultCredentialsProvider.create())
+    .serviceConfiguration(
+      S3Configuration.builder()
+        .pathStyleAccessEnabled(true)
+        .build(),
+    )
+    .build()
 
   @Bean
   @Profile("!local")
-  fun awsS3Client(): S3Client =
-    S3Client.builder()
-      .region(Region.of(region))
-      .credentialsProvider(DefaultCredentialsProvider.create())
-      .build()
+  fun awsS3Client(): S3Client = S3Client.builder()
+    .region(Region.of(region))
+    .credentialsProvider(DefaultCredentialsProvider.create())
+    .build()
 }
