@@ -19,14 +19,11 @@ class ResourceSecurityTest : IntegrationTestBase() {
     "GET /v3/api-docs",
     "GET /v3/api-docs/swagger-config",
     " /error",
-    "POST /ingest/",
-    "POST /ingest/events",
-    "GET /test/**",
-    "GET /test/subscribe/{topic}",
     "GET /test/hello",
     "POST /detect-violation",
     "GET /notifications",
     "GET /persons",
+    "PUT /queue-admin/retry-all-dlqs",
   )
 
   @Test
