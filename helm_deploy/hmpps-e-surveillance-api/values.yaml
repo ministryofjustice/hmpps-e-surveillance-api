@@ -72,22 +72,11 @@ generic-service:
           name: people-and-events-bucket
           key: name
 
-    # Postgres
-    SPRING_DATASOURCE_USERNAME:
-      valueFrom:
-        secretKeyRef:
-          name: rds-spring
-          key: SPRING_DATASOURCE_USERNAME
-    SPRING_DATASOURCE_PASSWORD:
-      valueFrom:
-        secretKeyRef:
-          name: rds-spring
-          key: SPRING_DATASOURCE_PASSWORD
-    SPRING_DATASOURCE_URL:
-      valueFrom:
-        secretKeyRef:
-          name: rds-spring
-          key: SPRING_DATASOURCE_URL
+  namespace_secrets:
+    rds-spring:
+      SPRING_DATASOURCE_USERNAME: "SPRING_DATASOURCE_USERNAME"
+      SPRING_DATASOURCE_PASSWORD: "SPRING_DATASOURCE_PASSWORD"
+      SPRING_DATASOURCE_URL: "SPRING_DATASOURCE_URL"
 
   allowlist:
     groups:
