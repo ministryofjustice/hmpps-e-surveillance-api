@@ -1,6 +1,6 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.integration
 
-// import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
@@ -19,14 +19,11 @@ class ResourceSecurityTest : IntegrationTestBase() {
     "GET /v3/api-docs",
     "GET /v3/api-docs/swagger-config",
     " /error",
-    "POST /ingest/",
-    "POST /ingest/events",
-    "GET /test/**",
-    "GET /test/subscribe/{topic}",
     "GET /test/hello",
     "POST /detect-violation",
     "GET /notifications",
     "GET /persons",
+    "PUT /queue-admin/retry-all-dlqs",
   )
 
   @Test
@@ -48,9 +45,9 @@ class ResourceSecurityTest : IntegrationTestBase() {
         val annotation = method.getMethodAnnotation(PreAuthorize::class.java)
         if (classAnnotation == null && annotation == null) {
           mappingInfo.getMappings().forEach {
-//            assertThat(exclusions.contains(it)).withFailMessage {
-//              "Found $mappingInfo of type $method with no PreAuthorize annotation"
-//            }.isTrue()
+            assertThat(exclusions.contains(it)).withFailMessage {
+              "Found $mappingInfo of type $method with no PreAuthorize annotation"
+            }.isTrue()
           }
         }
       }

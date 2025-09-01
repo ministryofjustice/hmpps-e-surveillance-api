@@ -8,7 +8,6 @@ management.endpoint:
 hmpps-auth:
   url: "http://localhost:8090/auth"
 
-
 spring:
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
@@ -29,19 +28,18 @@ aws:
   region: eu-west-2
 
 hmpps.sqs:
-    provider: localstack
-    endpointUrl: http://localhost:4566
-    queues:
-      fileuploadqueue:
-        queueName: ${random.uuid}
-        dlqName: ${random.uuid}
-        subscribeTopicId: fileuploadtopic
-      personidqueue:
-        queueName: ${random.uuid}
-        dlqName: ${random.uuid}
-        subscribeTopicId: personidtopic
-    topics:
-      fileuploadtopic:
-        arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
-      personidtopic:
-        arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
+  provider: localstack
+  queues:
+    fileuploadqueue:
+      queueName: ${random.uuid}
+      dlqName: ${random.uuid}
+      subscribeTopicId: fileuploadtopic
+    personidqueue:
+      queueName: ${random.uuid}
+      dlqName: ${random.uuid}
+      subscribeTopicId: personidtopic
+  topics:
+    fileuploadtopic:
+      arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
+    personidtopic:
+      arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
