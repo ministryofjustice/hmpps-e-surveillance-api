@@ -21,12 +21,12 @@ generic-service:
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.json
 
     # SNS Topics
-    AWS_TOPIC_ARN_FILE_UPLOAD:
+    HMPPS_SQS_TOPICS_FILEUPLOADTOPIC_ARN:
       valueFrom:
         secretKeyRef:
           name: file-upload-sns-topic
           key: topic_arn
-    AWS_TOPIC_ARN_EVENTS:
+    HMPPS_SQS_TOPICS_PERSONIDTOPIC_ARN:
       valueFrom:
         secretKeyRef:
           name: person-id-sns-topic
@@ -43,6 +43,9 @@ generic-service:
         secretKeyRef:
           name: file-upload-queue-sqs-dl-instance-output
           key: queue_url
+    HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_SUBSCRIBE_TOPIC_ID:
+      value: fileuploadtopic
+
     HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME:
       valueFrom:
         secretKeyRef:
@@ -53,6 +56,8 @@ generic-service:
         secretKeyRef:
           name: person-id-queue-sqs-dl-instance-output
           key: queue_url
+    HMPPS_SQS_QUEUES_PERSONIDQUEUE_SUBSCRIBE_TOPIC_ID:
+      value: personidtopic
 
     # S3 bucket
     AWS_BUCKET_PEOPLE_AND_EVENTS:
