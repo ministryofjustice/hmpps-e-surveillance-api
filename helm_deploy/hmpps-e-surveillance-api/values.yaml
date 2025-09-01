@@ -1,69 +1,93 @@
 generic-service:
   nameOverride: hmpps-e-surveillance-api
-  productId: "HMPPS547" # productId for the product that this belongs too, i.e. DPS001
+  productId: "HMPPS547"
 
   replicaCount: 4
 
   image:
     repository: ghcr.io/ministryofjustice/hmpps-e-surveillance-api
-    tag: app_version # override at deployment time
+    tag: app_version
     port: 8080
 
   ingress:
     enabled: true
-    host: app-hostname.local # override per environment
+    host: app-hostname.local
     tlsSecretName: hmpps-e-surveillance-api-cert
 
-  # Environment variables to load into the deployment
   env:
     JAVA_OPTS: "-Xmx512m"
     SERVER_PORT: "8080"
-    APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY)"
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.json
 
-    # SNS Topics (Spring will map these to aws.topic-arn.*)
+    # App Insights
+    APPLICATIONINSIGHTS_CONNECTION_STRING:
+      valueFrom:
+        secretKeyRef:
+          name: hmpps-e-surveillance-api-application-insights
+          key: APPLICATIONINSIGHTS_CONNECTION_STRING
+    APPINSIGHTS_INSTRUMENTATIONKEY:
+      valueFrom:
+        secretKeyRef:
+          name: hmpps-e-surveillance-api-application-insights
+          key: APPINSIGHTS_INSTRUMENTATIONKEY
+
+    # SNS Topics
     AWS_TOPIC_ARN_FILE_UPLOAD:
       valueFrom:
         secretKeyRef:
           name: file-upload-sns-topic
-          key: arn
-
+          key: topic_arn
     AWS_TOPIC_ARN_EVENTS:
       valueFrom:
         secretKeyRef:
           name: person-id-sns-topic
-          key: arn
+          key: topic_arn
 
-    # S3 bucket (Spring will map this to aws.bucket.people-and-events)
+    # SQS Queues
+    HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME:
+      valueFrom:
+        secretKeyRef:
+          name: file-upload-sqs
+          key: queue_url
+    HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME:
+      valueFrom:
+        secretKeyRef:
+          name: file-upload-queue-sqs-dl-instance-output
+          key: queue_url
+    HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME:
+      valueFrom:
+        secretKeyRef:
+          name: person-id-sqs
+          key: queue_url
+    HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME:
+      valueFrom:
+        secretKeyRef:
+          name: person-id-queue-sqs-dl-instance-output
+          key: queue_url
+
+    # S3 bucket
     AWS_BUCKET_PEOPLE_AND_EVENTS:
       valueFrom:
         secretKeyRef:
           name: people-and-events-bucket
           key: name
 
-  # Pre-existing kubernetes secrets to load as environment variables in the deployment.
-  namespace_secrets:
-    hmpps-e-surveillance-api-application-insights:
-      APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
-      APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
-    file-upload-sqs-instance-output:
-      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME: "fileuploadqueue"
-    file-upload-queue-sqs-dl-instance-output:
-      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME: "fileuploadDlq"
-    person-id-queue-sqs-instance-output:
-      HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME: "personidqueue"
-    personid-queue-sqs-dl-instance-output:
-      HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME: "personidDlq"
-    file-upload-topic:
-      HMPPS_SQS_TOPICS_FILEUPLOADTOPIC_TOPIC_ARN: "file_upload_arn"
-    personid-topic:
-      HMPPS_SQS_TOPICS_PERSONIDTOPIC_TOPIC_ARN: "person_id_arn"
-
-    # postgres connection settings
-    rds-spring:
-      SPRING_DATASOURCE_USERNAME: "SPRING_DATASOURCE_USERNAME"
-      SPRING_DATASOURCE_PASSWORD: "SPRING_DATASOURCE_PASSWORD"
-      SPRING_DATASOURCE_URL: "SPRING_DATASOURCE_URL"
+    # Postgres
+    SPRING_DATASOURCE_USERNAME:
+      valueFrom:
+        secretKeyRef:
+          name: rds-spring
+          key: SPRING_DATASOURCE_USERNAME
+    SPRING_DATASOURCE_PASSWORD:
+      valueFrom:
+        secretKeyRef:
+          name: rds-spring
+          key: SPRING_DATASOURCE_PASSWORD
+    SPRING_DATASOURCE_URL:
+      valueFrom:
+        secretKeyRef:
+          name: rds-spring
+          key: SPRING_DATASOURCE_URL
 
   allowlist:
     groups:
