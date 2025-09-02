@@ -32,27 +32,6 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
-  hmpps:
-    sqs:
-      queues:
-        fileuploadqueue:
-          queueName: ${HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME}
-          dlqName: ${HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME}
-          subscribeTopicId: ${HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_SUBSCRIBE_TOPIC_ID:fileuploadtopic}
-        personidqueue:
-          queueName: ${HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME}
-          dlqName: ${HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME}
-          subscribeTopicId: ${HMPPS_SQS_QUEUES_PERSONIDQUEUE_SUBSCRIBE_TOPIC_ID:personidtopic}
-      topics:
-        fileuploadtopic:
-          arn: ${HMPPS_SQS_TOPICS_FILEUPLOADTOPIC_ARN}
-        personidtopic:
-          arn: ${HMPPS_SQS_TOPICS_PERSONIDTOPIC_ARN}
-
-  aws:
-    s3:
-      peopleAndEventsBucket: ${AWS_BUCKET_PEOPLE_AND_EVENTS}
-
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -99,5 +78,23 @@ aws:
   region: eu-west-2
   s3:
     endpoint: https://s3.${aws.region}.amazonaws.com
+    peopleAndEventsBucket: ${AWS_BUCKET_PEOPLE_AND_EVENTS}
   sns:
     endpoint: https://sns.${aws.region}.amazonaws.com
+
+hmpps:
+  sqs:
+    queues:
+      fileuploadqueue:
+        queueName: ${HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME}
+        dlqName: ${HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME}
+        subscribeTopicId: ${HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_SUBSCRIBE_TOPIC_ID:fileuploadtopic}
+      personidqueue:
+        queueName: ${HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME}
+        dlqName: ${HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME}
+        subscribeTopicId: ${HMPPS_SQS_QUEUES_PERSONIDQUEUE_SUBSCRIBE_TOPIC_ID:personidtopic}
+    topics:
+      fileuploadtopic:
+        arn: ${HMPPS_SQS_TOPICS_FILEUPLOADTOPIC_ARN}
+      personidtopic:
+        arn: ${HMPPS_SQS_TOPICS_PERSONIDTOPIC_ARN}
