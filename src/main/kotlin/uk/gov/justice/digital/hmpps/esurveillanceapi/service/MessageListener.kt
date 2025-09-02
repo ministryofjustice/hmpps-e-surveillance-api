@@ -1,10 +1,10 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import io.awspring.cloud.sqs.annotation.SqsListener
+import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import jakarta.annotation.PostConstruct
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import io.awspring.cloud.sqs.annotation.SqsListener
 
 @Service
 class MessageListener(
