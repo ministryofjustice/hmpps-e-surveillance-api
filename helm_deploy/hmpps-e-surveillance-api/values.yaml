@@ -17,60 +17,39 @@ generic-service:
   env:
     JAVA_OPTS: "-Xmx512m"
     SERVER_PORT: "8080"
-    APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY)"
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.json
 
+  namespace_secrets:
     # SNS Topics
-    HMPPS_SQS_TOPICS_FILEUPLOADTOPIC_ARN:
-      valueFrom:
-        secretKeyRef:
-          name: file-upload-sns-topic
-          key: topic_arn
-    HMPPS_SQS_TOPICS_PERSONIDTOPIC_ARN:
-      valueFrom:
-        secretKeyRef:
-          name: person-id-sns-topic
-          key: topic_arn
+    file-upload-sns-topic:
+      HMPPS_SQS_TOPICS_FILEUPLOADTOPIC_ARN: "topic_arn"
+    person-id-sns-topic:
+      HMPPS_SQS_TOPICS_PERSONIDTOPIC_ARN: "topic_arn"
 
     # SQS Queues
-    HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME:
-      valueFrom:
-        secretKeyRef:
-          name: file-upload-sqs
-          key: queue_url
-    HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME:
-      valueFrom:
-        secretKeyRef:
-          name: file-upload-queue-sqs-dl-instance-output
-          key: queue_url
-    HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_SUBSCRIBE_TOPIC_ID:
-      value: fileuploadtopic
-
-    HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME:
-      valueFrom:
-        secretKeyRef:
-          name: person-id-sqs
-          key: queue_url
-    HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME:
-      valueFrom:
-        secretKeyRef:
-          name: person-id-queue-sqs-dl-instance-output
-          key: queue_url
-    HMPPS_SQS_QUEUES_PERSONIDQUEUE_SUBSCRIBE_TOPIC_ID:
-      value: personidtopic
+    file-upload-sqs:
+      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME: "queue_url"
+    file-upload-queue-sqs-dl-instance-output:
+      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME: "queue_url"
+    person-id-sqs:
+      HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME: "queue_url"
+    person-id-queue-sqs-dl-instance-output:
+      HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME: "queue_url"
 
     # S3 bucket
-    AWS_BUCKET_PEOPLE_AND_EVENTS:
-      valueFrom:
-        secretKeyRef:
-          name: people-and-events-bucket
-          key: name
+    people-and-events-bucket:
+      AWS_BUCKET_PEOPLE_AND_EVENTS: "name"
 
-  namespace_secrets:
+    # RDS
     rds-spring:
       SPRING_DATASOURCE_USERNAME: "SPRING_DATASOURCE_USERNAME"
       SPRING_DATASOURCE_PASSWORD: "SPRING_DATASOURCE_PASSWORD"
       SPRING_DATASOURCE_URL: "SPRING_DATASOURCE_URL"
+
+    #APPINSIGHTS
+    hmpps-e-surveillance-ui-application-insights:
+      APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
+      APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
 
   allowlist:
     groups:
