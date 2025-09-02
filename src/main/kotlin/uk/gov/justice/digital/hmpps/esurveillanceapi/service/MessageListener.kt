@@ -11,13 +11,13 @@ class MessageListener(
   private val eventsProcessorService: EventsProcessorService,
 ) {
 
-  @SqsListener("fileuploadqueue", factory = "hmppsQueueContainerFactoryProxy")
+  @SqsListener("\${hmpps.sqs.queues.fileuploadqueue.queueName}", factory = "hmppsQueueContainerFactoryProxy")
   fun processFileUploadMessage(@RequestBody rawMessage: String) {
     val outerJson = jacksonObjectMapper().readTree(rawMessage)
     fileProcessorService.processUploadedFile(outerJson)
   }
 
-  @SqsListener("personidqueue", factory = "hmppsQueueContainerFactoryProxy")
+  @SqsListener("\${hmpps.sqs.queues.personidqueue.queueName}", factory = "hmppsQueueContainerFactoryProxy")
   fun processPersonIfdMessage(@RequestBody rawMessage: String) {
     val outerJson = jacksonObjectMapper().readTree(rawMessage)
     eventsProcessorService.processPersonId(outerJson)
