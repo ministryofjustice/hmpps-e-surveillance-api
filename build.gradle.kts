@@ -26,6 +26,7 @@ dependencies {
   implementation("software.amazon.awssdk:sns:2.32.7")
   implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.8.0")
   implementation("org.flywaydb:flyway-core:11.10.5")
+  implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
   runtimeOnly("org.flywaydb:flyway-database-postgresql:11.10.5")
   testImplementation("com.h2database:h2")
   testImplementation("org.testcontainers:localstack:1.21.3")
