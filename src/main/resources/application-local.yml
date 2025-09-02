@@ -8,8 +8,6 @@ aws:
   region: eu-west-2
 
 spring:
-  profiles:
-    active: local
   datasource:
     url: "jdbc:postgresql://surveillance-db:5432/esurveillance"
     username: myuser
@@ -20,11 +18,11 @@ hmpps:
     provider: localstack
     queues:
       fileuploadqueue:
-        queueName: file-upload-queue
+        queueName: fileuploadqueue
         dlqName: file-upload-dlq
         subscribeTopicId: fileuploadtopic
       personidqueue:
-        queueName: person-id-queue
+        queueName: personidqueue
         dlqName: person-id-dlq
         subscribeTopicId: personidtopic
     topics:
