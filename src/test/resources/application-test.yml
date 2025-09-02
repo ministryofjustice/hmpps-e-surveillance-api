@@ -27,19 +27,20 @@ aws:
     secretKey: test
   region: eu-west-2
 
-hmpps.sqs:
-  provider: localstack
-  queues:
-    fileuploadqueue:
-      queueName: fileuploadqueue
-      dlqName: ${random.uuid}
-      subscribeTopicId: fileuploadtopic
-    personidqueue:
-      queueName: personidqueue
-      dlqName: ${random.uuid}
-      subscribeTopicId: personidtopic
-  topics:
-    fileuploadtopic:
-      arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
-    personidtopic:
-      arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
+hmpps:
+  sqs:
+    provider: localstack
+    queues:
+      fileuploadqueue:
+        queueName: fileuploadqueue
+        dlqName: ${random.uuid}
+        subscribeTopicId: fileuploadtopic
+      personidqueue:
+        queueName: personidqueue
+        dlqName: ${random.uuid}
+        subscribeTopicId: personidtopic
+    topics:
+      fileuploadtopic:
+        arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
+      personidtopic:
+        arn: arn:aws:sns:eu-west-2:000000000000:${random.uuid}
