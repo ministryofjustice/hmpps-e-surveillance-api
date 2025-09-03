@@ -28,13 +28,13 @@ generic-service:
 
     # SQS Queues
     sqs-fileupload-output:
-      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME: "fileuploadqueue"
+      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME: "queue_name"
     sqs-personid-output:
-      HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME: "personidqueue"
+      HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME: "queue_name"
     sqs-fileupload-dl-output:
-      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME: "fileuploadqueuedlq"
+      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME: "queue_name"
     sqs-personid-dl-output:
-      HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME: "personidqueuedlq"
+      HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME: "queue_name"
 
     # S3 bucket
     people-and-events-bucket:
