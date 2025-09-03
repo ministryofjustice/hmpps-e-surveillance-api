@@ -21,20 +21,20 @@ generic-service:
 
   namespace_secrets:
     # SNS Topics
-    file-upload-sns-topic:
+    fileupload-sns-topic:
       HMPPS_SQS_TOPICS_FILEUPLOADTOPIC_ARN: "topic_arn"
-    person-id-sns-topic:
+    personid-sns-topic:
       HMPPS_SQS_TOPICS_PERSONIDTOPIC_ARN: "topic_arn"
 
     # SQS Queues
-    file-upload-sqs:
-      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME: "queue_url"
-    file-upload-queue-sqs-dl-instance-output:
-      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME: "queue_url"
-    person-id-sqs:
-      HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME: "queue_url"
-    person-id-queue-sqs-dl-instance-output:
-      HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME: "queue_url"
+    sqs-fileupload-output:
+      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_QUEUE_NAME: "fileuploadqueue"
+    sqs-personid-output:
+      HMPPS_SQS_QUEUES_PERSONIDQUEUE_QUEUE_NAME: "personidqueue"
+    sqs-fileupload-dl-output:
+      HMPPS_SQS_QUEUES_FILEUPLOADQUEUE_DLQ_NAME: "fileuploadqueuedlq"
+    sqs-personid-dl-output:
+      HMPPS_SQS_QUEUES_PERSONIDQUEUE_DLQ_NAME: "personidqueuedlq"
 
     # S3 bucket
     people-and-events-bucket:
