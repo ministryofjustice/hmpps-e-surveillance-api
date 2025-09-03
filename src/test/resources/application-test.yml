@@ -31,11 +31,11 @@ hmpps.sqs:
   provider: localstack
   queues:
     fileuploadqueue:
-      queueName: fileuploadqueue
+      queueName: ${random.uuid}
       dlqName: ${random.uuid}
       subscribeTopicId: fileuploadtopic
     personidqueue:
-      queueName: personidqueue
+      queueName: ${random.uuid}
       dlqName: ${random.uuid}
       subscribeTopicId: personidtopic
   topics:
