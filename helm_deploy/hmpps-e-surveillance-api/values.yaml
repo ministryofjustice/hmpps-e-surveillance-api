@@ -39,6 +39,7 @@ generic-service:
     # S3 bucket
     people-and-events-bucket:
       AWS_BUCKET_PEOPLE_AND_EVENTS: "bucket_name"
+      URL_EXPIRATION_MINUTES: "url_expiration_minutes"
 
     # RDS
     rds-spring:

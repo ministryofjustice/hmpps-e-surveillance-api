@@ -79,6 +79,7 @@ aws:
   s3:
     endpoint: https://s3.${aws.region}.amazonaws.com
     peopleAndEventsBucket: ${AWS_BUCKET_PEOPLE_AND_EVENTS}
+    urlExpirationMinutes: ${URL_EXPIRATION_MINUTES}
   sns:
     endpoint: https://sns.${aws.region}.amazonaws.com
 
