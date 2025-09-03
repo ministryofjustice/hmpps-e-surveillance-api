@@ -18,7 +18,7 @@ class ResourceSecurityTest : IntegrationTestBase() {
     "GET /swagger-ui.html",
     "GET /v3/api-docs",
     "GET /v3/api-docs/swagger-config",
-    "/error",
+    " /error",
     "GET /test/hello",
     "POST /detect-violation",
     "GET /notifications",

@@ -16,7 +16,7 @@ class S3UploadService(
   private val s3Client: S3Client,
   private val s3Presigner: S3Presigner,
   @Value("\${aws.s3.peopleAndEventsBucket}") private val bucketName: String,
-  @Value("\${aws.s3.urlExpirationMinutes}") private val expirationMinutes: Long
+  @Value("\${aws.s3.urlExpirationMinutes}") private val expirationMinutes: Long,
 ) {
 
   fun uploadFile(file: MultipartFile, key: String): String {

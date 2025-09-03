@@ -39,24 +39,20 @@ class S3ClientConfig {
 
   @Bean
   @Profile("!local")
-  fun s3Presigner(): S3Presigner {
-    return S3Presigner.builder()
-      .region(Region.of(region))
-      .endpointOverride(URI.create("http://localhost:4566"))
-      .credentialsProvider(DefaultCredentialsProvider.create())
-      .serviceConfiguration(
-        S3Configuration.builder()
-          .pathStyleAccessEnabled(true)
-          .build(),
-      )
-      .build()
-  }
+  fun s3Presigner(): S3Presigner = S3Presigner.builder()
+    .region(Region.of(region))
+    .endpointOverride(URI.create("http://localhost:4566"))
+    .credentialsProvider(DefaultCredentialsProvider.create())
+    .serviceConfiguration(
+      S3Configuration.builder()
+        .pathStyleAccessEnabled(true)
+        .build(),
+    )
+    .build()
 
   @Bean
   @Profile("local")
-  fun s3LocalPresigner(): S3Presigner {
-    return S3Presigner.builder()
-      .region(Region.of(region))
-      .build()
-  }
+  fun s3LocalPresigner(): S3Presigner = S3Presigner.builder()
+    .region(Region.of(region))
+    .build()
 }

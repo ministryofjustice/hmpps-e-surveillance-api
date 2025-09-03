@@ -12,12 +12,12 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.service.S3UploadService
 import java.net.URL
 import java.util.*
 
-
 @RestController
 class FileUploadResource(private val s3UploadService: S3UploadService) {
   companion object {
     val LOG: Logger = LoggerFactory.getLogger(this::class.java)
   }
+
   @PostMapping("/file/upload")
   fun uploadFile(@RequestParam("file") file: MultipartFile): ResponseEntity<String> {
     val fileName = file.originalFilename ?: UUID.randomUUID().toString()
