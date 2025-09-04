@@ -28,7 +28,6 @@ aws:
   region: eu-west-2
   s3:
     peopleAndEventsBucket: people-and-events-bucket
-    urlExpirationMinutes: 15
 
 hmpps.sqs:
   provider: localstack

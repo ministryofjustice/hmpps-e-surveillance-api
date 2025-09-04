@@ -12,7 +12,6 @@ import java.time.Duration
 class S3UploadService(
   private val s3Presigner: S3Presigner,
   @Value("\${aws.s3.peopleAndEventsBucket}") private val bucketName: String,
-  @Value("\${aws.s3.urlExpirationMinutes}") private val expirationMinutes: Long,
 ) {
 
   fun getUploadUrl(key: String): URL {
@@ -23,7 +22,7 @@ class S3UploadService(
       .build()
 
     val request = PutObjectPresignRequest.builder()
-      .signatureDuration(Duration.ofMinutes(expirationMinutes))
+      .signatureDuration(Duration.ofMinutes(30))
       .putObjectRequest(putObjectRequest)
       .build()
 
