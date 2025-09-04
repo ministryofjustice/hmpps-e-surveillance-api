@@ -24,7 +24,6 @@ class ResourceSecurityTest : IntegrationTestBase() {
     "GET /notifications",
     "GET /persons",
     "PUT /queue-admin/retry-all-dlqs",
-    "POST /file/upload",
     "GET /get-upload-url",
   )
 
