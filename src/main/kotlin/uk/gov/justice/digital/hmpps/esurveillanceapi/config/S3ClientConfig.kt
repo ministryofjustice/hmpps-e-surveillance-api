@@ -8,6 +8,7 @@ import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.S3Configuration
+import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import java.net.URI
 
 @Configuration
@@ -34,5 +35,24 @@ class S3ClientConfig {
   fun awsS3Client(): S3Client = S3Client.builder()
     .region(Region.of(region))
     .credentialsProvider(DefaultCredentialsProvider.create())
+    .build()
+
+  @Bean
+  @Profile("!local")
+  fun s3Presigner(): S3Presigner = S3Presigner.builder()
+    .region(Region.of(region))
+    .endpointOverride(URI.create("http://localhost:4566"))
+    .credentialsProvider(DefaultCredentialsProvider.create())
+    .serviceConfiguration(
+      S3Configuration.builder()
+        .pathStyleAccessEnabled(true)
+        .build(),
+    )
+    .build()
+
+  @Bean
+  @Profile("local")
+  fun s3LocalPresigner(): S3Presigner = S3Presigner.builder()
+    .region(Region.of(region))
     .build()
 }

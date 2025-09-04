@@ -31,6 +31,7 @@ class ResourceServerConfiguration {
         "/swagger-ui/**",
         "/swagger-ui.html",
         "/test/**",
+        "/get-upload-url",
       ).forEach { authorize(it, permitAll) }
       authorize(anyRequest, authenticated)
     }
