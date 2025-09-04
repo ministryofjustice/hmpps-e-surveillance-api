@@ -78,7 +78,7 @@ aws:
   region: eu-west-2
   s3:
     endpoint: https://s3.${aws.region}.amazonaws.com
-    urlExpirationMinutes: 15
+
   sns:
     endpoint: https://sns.${aws.region}.amazonaws.com
 
