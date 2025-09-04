@@ -107,8 +107,9 @@ class FileProcessorService(
   }
 
   fun processUploadedFile(outerJson: JsonNode) {
+    LOG.info("In processUploadedFile:")
     val messageJson = outerJson["Message"]?.asText()
-
+    LOG.info("messageJson: $messageJson")
     messageJson?.let {
       val event = objectMapper.readTree(it)
       val bucket = event["Records"][0]["s3"]["bucket"]["name"].asText()
