@@ -77,22 +77,21 @@ class FileProcessorService(
       val uniquePersonIds = csvReader().readAllWithHeader(data)
         .mapNotNull { it["person_id"] }
         .toSet()
-      snsClient.use {
-        for (id in uniquePersonIds) {
-          val messagePayload = mapOf(
-            "personId" to id,
-            "source" to key,
-            "bucket" to bucket,
-          )
-          val messageJson = Json.encodeToString(messagePayload)
-          val request = PublishRequest.builder()
-            .message(messageJson)
-            .topicArn(personIdTopicArn)
-            .build()
 
-          val response = snsClient.publish(request)
-          println("Message ID: ${response.messageId()} for message: $id")
-        }
+      for (id in uniquePersonIds) {
+        val messagePayload = mapOf(
+          "personId" to id,
+          "source" to key,
+          "bucket" to bucket,
+        )
+        val messageJson = Json.encodeToString(messagePayload)
+        val request = PublishRequest.builder()
+          .message(messageJson)
+          .topicArn(personIdTopicArn)
+          .build()
+
+        val response = snsClient.publish(request)
+        println("Message ID: ${response.messageId()} for message: $id")
       }
     }
   }
