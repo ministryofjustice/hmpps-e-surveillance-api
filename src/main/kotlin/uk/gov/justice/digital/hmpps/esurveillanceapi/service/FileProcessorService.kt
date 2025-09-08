@@ -88,10 +88,12 @@ class FileProcessorService(
         val request = PublishRequest.builder()
           .message(messageJson)
           .topicArn(personIdTopicArn)
+          .messageGroupId("person-$id") // group messages by person
+          .messageDeduplicationId("$id-$key") // unique ID for deduplication
           .build()
 
         val response = snsClient.publish(request)
-        println("Message ID: ${response.messageId()} for message: $id")
+        LOG.info("Message ID: ${response.messageId()} for personId=$id")
       }
     }
   }
