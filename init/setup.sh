@@ -8,7 +8,8 @@ echo "Creating S3 bucket, SNS topic in LocalStack..."
 
 awslocal s3 mb s3://$PEOPLE_AND_EVENTS_BUCKET
 awslocal sns create-topic --name $SNS_TOPIC_FILE_UPLOAD
-awslocal sns create-topic --name $SNS_TOPIC_EVENTS
+awslocal sns create-topic --name "${SNS_TOPIC_EVENTS}.fifo" --attributes FifoTopic=true,ContentBasedDeduplication=false
+
 
 TOPIC_ARN_FILE_UPLOAD=$(awslocal --endpoint-url=http://localhost:4566 sns list-topics --query 'Topics[0].TopicArn' --output text)
 echo "TOPIC_ARN for S3: ${TOPIC_ARN_FILE_UPLOAD}"
