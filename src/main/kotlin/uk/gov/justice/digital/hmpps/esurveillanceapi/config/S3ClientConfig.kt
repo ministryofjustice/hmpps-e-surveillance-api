@@ -38,7 +38,7 @@ class S3ClientConfig {
     .build()
 
   @Bean
-  @Profile("!local")
+  @Profile("local")
   fun s3Presigner(): S3Presigner = S3Presigner.builder()
     .region(Region.of(region))
     .endpointOverride(URI.create("http://localhost:4566"))
@@ -51,7 +51,7 @@ class S3ClientConfig {
     .build()
 
   @Bean
-  @Profile("local")
+  @Profile("!local")
   fun s3LocalPresigner(): S3Presigner = S3Presigner.builder()
     .region(Region.of(region))
     .build()

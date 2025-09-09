@@ -1,14 +1,14 @@
 #!/bin/bash
 
 readonly SNS_TOPIC_FILE_UPLOAD="file-upload-topic"
-readonly SNS_TOPIC_EVENTS="person-id-topic"
+readonly SNS_TOPIC_EVENTS="person-id-topic.fifo"
 
 readonly PEOPLE_AND_EVENTS_BUCKET="people-and-events-bucket"
 echo "Creating S3 bucket, SNS topic in LocalStack..."
 
 awslocal s3 mb s3://$PEOPLE_AND_EVENTS_BUCKET
 awslocal sns create-topic --name $SNS_TOPIC_FILE_UPLOAD
-awslocal sns create-topic --name "${SNS_TOPIC_EVENTS}.fifo" --attributes FifoTopic=true,ContentBasedDeduplication=false
+awslocal sns create-topic --name $SNS_TOPIC_EVENTS --attributes FifoTopic=true,ContentBasedDeduplication=false
 
 
 TOPIC_ARN_FILE_UPLOAD=$(awslocal --endpoint-url=http://localhost:4566 sns list-topics --query 'Topics[0].TopicArn' --output text)
