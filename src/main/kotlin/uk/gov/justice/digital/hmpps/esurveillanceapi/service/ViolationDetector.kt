@@ -26,6 +26,7 @@ class ViolationDetector {
 
   fun mapViolationTypeToViolation(type: ViolationType): Violation = when (type) {
     ViolationType.EXCLUSION_ZONE_VIOLATION -> Violation.ENTERING_EXCLUSION_ZONE
+    ViolationType.BATTERY -> Violation.BATTERY
     ViolationType.CURFEW_VIOLATION -> Violation.MISSING_CURFEW
     ViolationType.TAMPER -> Violation.TAMPERING_WITH_DEVICE
   }
