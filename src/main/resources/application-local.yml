@@ -32,4 +32,4 @@ hmpps:
       fileuploadtopic:
         arn: arn:aws:sns:eu-west-2:000000000000:file-upload-topic
       personidtopic:
-        arn: arn:aws:sns:eu-west-2:000000000000:person-id-topic
+        arn: arn:aws:sns:eu-west-2:000000000000:person-id-topic.fifo
