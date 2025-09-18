@@ -17,6 +17,8 @@ data class Notification(
 
   val personId: String,
 
+  val personName: String,
+
   val violation: String,
 
   val timestamp: LocalDateTime,
@@ -24,5 +26,5 @@ data class Notification(
   @Column(columnDefinition = "TEXT")
   val message: String,
 ) {
-  constructor() : this(0L, "", "", LocalDateTime.MIN, "")
+  constructor() : this(0L, "", "", "", LocalDateTime.MIN, "")
 }

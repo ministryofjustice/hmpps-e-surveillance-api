@@ -11,12 +11,14 @@ class NotificationService(
 ) {
   fun saveNotification(
     personId: String,
+    personName: String,
     violation: String,
     message: String,
     timestamp: LocalDateTime = LocalDateTime.now(),
   ): Notification {
     val notification = Notification(
       personId = personId,
+      personName = personName,
       violation = violation,
       timestamp = timestamp,
       message = message,

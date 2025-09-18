@@ -7,7 +7,7 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 
 interface PersonsRepository :
   JpaRepository<Persons, Long>,
-  JpaSpecificationExecutor<Persons> {
+  JpaSpecificationExecutor<Persons>, PersonsRepositoryCustom {
 
   fun findByPersonId(personId: String): Persons?
 
