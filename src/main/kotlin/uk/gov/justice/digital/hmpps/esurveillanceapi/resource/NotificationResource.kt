@@ -28,7 +28,7 @@ class NotificationResource(
   ): Page<Notification> {
     val validSortFields = setOf("timestamp", "violation", "message", "person_name")
     val sort = if (!sortBy.isNullOrBlank() && sortBy in validSortFields) {
-      val direction = when(sortDir?.lowercase()) {
+      val direction = when (sortDir?.lowercase()) {
         "asc" -> Sort.Direction.ASC
         "desc" -> Sort.Direction.DESC
         else -> Sort.Direction.DESC

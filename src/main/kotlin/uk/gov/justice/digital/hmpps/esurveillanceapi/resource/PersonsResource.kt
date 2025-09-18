@@ -33,7 +33,7 @@ class PersonsResource(
     var spec: Specification<Persons>? = null
     val validSortFields = setOf("timestamp", "unique_device_wearer_id", "given_name", "family_name", "alias")
     val sort = if (!sortBy.isNullOrBlank() && sortBy in validSortFields) {
-      val direction = when(sortDir?.lowercase()) {
+      val direction = when (sortDir?.lowercase()) {
         "asc" -> Sort.Direction.ASC
         "desc" -> Sort.Direction.DESC
         else -> Sort.Direction.DESC

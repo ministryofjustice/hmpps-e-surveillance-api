@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Notification
 
 class NotificationRepositoryImpl(
-  @PersistenceContext private val entityManager: EntityManager
+  @PersistenceContext private val entityManager: EntityManager,
 ) : NotificationRepositoryCustom {
 
   override fun searchNotifications(search: String, pageable: Pageable): Page<Notification> {
@@ -26,7 +26,7 @@ class NotificationRepositoryImpl(
     val searchQuery = search.trim()
       .split("\\s+".toRegex())
       .filter { it.isNotBlank() }
-      .joinToString(" & ") { "${it}:*" }
+      .joinToString(" & ") { "$it:*" }
 
     val query = entityManager.createNativeQuery(sql, Notification::class.java)
       .setParameter("search", searchQuery)
@@ -42,6 +42,4 @@ class NotificationRepositoryImpl(
 
     return PageImpl(results, pageable, total)
   }
-
-
 }

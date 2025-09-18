@@ -7,11 +7,9 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 
-
 class PersonsRepositoryImpl(
-  @PersistenceContext private val entityManager: EntityManager
+  @PersistenceContext private val entityManager: EntityManager,
 ) : PersonsRepositoryCustom {
-
 
   override fun searchPersons(search: String, pageable: Pageable): Page<Persons> {
     val sql = """
@@ -28,7 +26,7 @@ class PersonsRepositoryImpl(
     val searchQuery = search.trim()
       .split("\\s+".toRegex())
       .filter { it.isNotBlank() }
-      .joinToString(" & ") { "${it}:*" }
+      .joinToString(" & ") { "$it:*" }
 
     val query = entityManager.createNativeQuery(sql, Persons::class.java)
       .setParameter("search", searchQuery)
@@ -44,7 +42,4 @@ class PersonsRepositoryImpl(
 
     return PageImpl(results, pageable, total)
   }
-
-
-
 }
