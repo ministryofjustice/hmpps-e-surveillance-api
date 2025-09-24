@@ -1,9 +1,7 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.resource
 
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.web.PageableDefault
 import org.springframework.web.bind.annotation.GetMapping
@@ -29,7 +27,6 @@ class PersonsResource(
     pageable: Pageable,
   ): Page<Persons> {
     var spec: Specification<Persons>? = null
-    println("search:"+search+":")
     if (!search.isNullOrBlank()) {
       spec = personsRepository.searchPersons(search)
     }
