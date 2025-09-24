@@ -7,8 +7,7 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 
 interface PersonsRepository :
   JpaRepository<Persons, Long>,
-  JpaSpecificationExecutor<Persons>,
-  PersonsRepositoryCustom {
+  JpaSpecificationExecutor<Persons> {
 
   fun findByPersonId(personId: String): Persons?
 
@@ -22,5 +21,12 @@ interface PersonsRepository :
 
   fun personIdEquals(personId: String): Specification<Persons> = Specification { root, _, cb ->
     cb.equal(root.get<String>("personId"), personId)
+  }
+
+  fun searchPersons(search: String): Specification<Persons> = Specification { root, _, cb ->
+    val lowerSearch = search.lowercase()
+    val givenNamePredicate = cb.like(cb.lower(root.get<String>("givenName")), "%$lowerSearch%")
+    val familyNamePredicate = cb.like(cb.lower(root.get<String>("familyName")), "%$lowerSearch%")
+    cb.or(givenNamePredicate, familyNamePredicate)
   }
 }

@@ -25,26 +25,13 @@ class PersonsResource(
     @RequestParam(required = false) familyName: String?,
     @RequestParam(required = false) personId: String?,
     @RequestParam(required = false) search: String?,
-    @RequestParam(required = false, name = "sort_by") sortBy: String?,
-    @RequestParam(required = false, name = "sort_dir") sortDir: String?,
     @PageableDefault(size = 30, sort = ["createdAt"], direction = org.springframework.data.domain.Sort.Direction.DESC)
     pageable: Pageable,
   ): Page<Persons> {
     var spec: Specification<Persons>? = null
-    val validSortFields = setOf("timestamp", "unique_device_wearer_id", "given_name", "family_name", "alias")
-    val sort = if (!sortBy.isNullOrBlank() && sortBy in validSortFields) {
-      val direction = when (sortDir?.lowercase()) {
-        "asc" -> Sort.Direction.ASC
-        "desc" -> Sort.Direction.DESC
-        else -> Sort.Direction.DESC
-      }
-      Sort.by(direction, sortBy)
-    } else {
-      pageable.sort
-    }
-    val updatedPageable = PageRequest.of(pageable.pageNumber, pageable.pageSize, sort)
+    println("search:"+search+":")
     if (!search.isNullOrBlank()) {
-      return personsRepository.searchPersons(search, updatedPageable)
+      spec = personsRepository.searchPersons(search)
     }
 
     if (!givenName.isNullOrBlank()) {
@@ -59,6 +46,6 @@ class PersonsResource(
       spec = spec?.and(personsRepository.personIdEquals(personId)) ?: personsRepository.personIdEquals(personId)
     }
 
-    return personsRepository.findAll(spec, updatedPageable)
+    return personsRepository.findAll(spec, pageable)
   }
 }
