@@ -77,7 +77,8 @@ class EventsProcessorService(
           val violationString = violationDetector.mapViolationTypeToViolation(violation)
           if (user != null) {
             val message = generateMessage(user.givenName, violationString, Tone.SUPPORTIVE)
-            notificationService.saveNotification(personId, violationString.name, message)
+            val personName = "${user.givenName} ${user.familyName}".trim()
+            notificationService.saveNotification(personId, personName, violationString.name, message)
           } else {
             LOG.info("No person found for personId: $personId")
           }

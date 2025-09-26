@@ -22,10 +22,14 @@ class PersonsResource(
     @RequestParam(required = false) givenName: String?,
     @RequestParam(required = false) familyName: String?,
     @RequestParam(required = false) personId: String?,
+    @RequestParam(required = false) search: String?,
     @PageableDefault(size = 30, sort = ["createdAt"], direction = org.springframework.data.domain.Sort.Direction.DESC)
     pageable: Pageable,
   ): Page<Persons> {
     var spec: Specification<Persons>? = null
+    if (!search.isNullOrBlank()) {
+      spec = personsRepository.searchPersons(search)
+    }
 
     if (!givenName.isNullOrBlank()) {
       spec = personsRepository.givenNameContains(givenName)
