@@ -32,7 +32,7 @@ enum class ViolationType(
       "EV_ZONE_EXCLUSION_TU_DEPARTED_DURING_TIME",
     ),
   ),
-  BATTERY(
+  BATTERY_LOW(
     initiators = setOf(
       "EV_ENTER_LOW_POWER_STATE",
       "EV_PID_BATTERY_LOW",

@@ -6,7 +6,7 @@ enum class Violation {
   ENTERING_EXCLUSION_ZONE,
   MISSING_CURFEW,
   TAMPERING_WITH_DEVICE,
-  BATTERY,
+  BATTERY_LOW,
 }
 
 enum class Tone {
