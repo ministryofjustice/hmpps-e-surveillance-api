@@ -20,7 +20,7 @@ class TestResource(
   ) {
 
   @GetMapping("/hello")
-  fun sayHello(@RequestParam(name = "name", defaultValue = "World") name: String) = "Hello, $name!"
+  fun sayHello(@RequestParam(name = "name", defaultValue = "World") name: String): String = "Hello, $name!"
 
   @PostMapping("/sms")
   fun sendSms(@RequestBody request: SmsRequest): ResponseEntity<String> {
