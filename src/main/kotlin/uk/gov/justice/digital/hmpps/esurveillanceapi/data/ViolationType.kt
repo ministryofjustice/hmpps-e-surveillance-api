@@ -32,6 +32,17 @@ enum class ViolationType(
       "EV_ZONE_EXCLUSION_TU_DEPARTED_DURING_TIME",
     ),
   ),
+  BATTERY_LOW(
+    initiators = setOf(
+      "EV_ENTER_LOW_POWER_STATE",
+      "EV_PID_BATTERY_LOW",
+      "EV_BATTERY_LEV_5PERCENT",
+    ),
+    terminators = setOf(
+      "EV_CHARGING_STARTED",
+      "EV_MU_MAINS_START",
+    ),
+  ),
   ;
 
   companion object {
