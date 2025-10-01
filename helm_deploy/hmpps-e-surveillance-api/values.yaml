@@ -51,6 +51,10 @@ generic-service:
       APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
 
+    # GOV.UK Notify
+    hmpps-e-surveillance-api-notify:
+      NOTIFY_API_KEY: "notify_api_key"
+
   allowlist:
     groups:
       - internal

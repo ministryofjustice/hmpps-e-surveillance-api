@@ -83,3 +83,6 @@ aws:
   sns:
     endpoint: https://sns.${aws.region}.amazonaws.com
 
+notify:
+  api:
+    key: ${NOTIFY_API_KEY}
