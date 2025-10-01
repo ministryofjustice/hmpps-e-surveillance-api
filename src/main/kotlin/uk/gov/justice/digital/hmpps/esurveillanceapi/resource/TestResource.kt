@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.EmailRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.SmsRequest
+import uk.gov.justice.digital.hmpps.esurveillanceapi.service.NotificationTemplateService
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.NotifyService
 
 
 @RestController
 @RequestMapping("/test")
-class TestResource(private val notifyService: NotifyService) {
+class TestResource(
+  private val notifyService: NotifyService,
+  private val notificationTemplateService: NotificationTemplateService,
+  ) {
 
   @GetMapping("/hello")
   fun sayHello(@RequestParam(name = "name", defaultValue = "World") name: String): String {
@@ -24,7 +28,7 @@ class TestResource(private val notifyService: NotifyService) {
   @PostMapping("/sms")
   fun sendSms(@RequestBody request: SmsRequest): ResponseEntity<String> {
     val notificationId = notifyService.sendSms(
-      request.templateId,
+      notificationTemplateService.getTemplateIds(request.violation).smsId,
       request.phoneNumber,
       request.personalisation,
     )
@@ -34,7 +38,7 @@ class TestResource(private val notifyService: NotifyService) {
   @PostMapping("/email")
   fun sendSms(@RequestBody request: EmailRequest): ResponseEntity<String> {
     val notificationId = notifyService.sendEmail(
-      request.templateId,
+      notificationTemplateService.getTemplateIds(request.violation).emailId,
       request.emailAddress,
       request.personalisation,
     )

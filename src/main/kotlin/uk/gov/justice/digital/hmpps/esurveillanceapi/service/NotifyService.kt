@@ -8,7 +8,7 @@ import java.util.UUID
 
 
 class NotifyService(
-  private val notificationClient: NotificationClient,
+  private val notificationClient: NotificationClient
 ) {
   companion object {
     val LOG: Logger = LoggerFactory.getLogger(this::class.java)
