@@ -6,7 +6,6 @@ import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
 import java.util.UUID
 
-
 class NotifyService(
   private val notificationClient: NotificationClient
 ) {
@@ -14,18 +13,18 @@ class NotifyService(
     val LOG: Logger = LoggerFactory.getLogger(this::class.java)
   }
   fun sendEmail(templateId: String, emailAddress: String, personalisation: Map<String, String>): UUID? {
-      try {
-        val response = notificationClient.sendEmail(
-          templateId,
-          emailAddress,
-          personalisation,
-          "eventAuditId",
-        )
-        return response.notificationId
-      } catch (e: NotificationClientException) {
-        LOG.error("Error sending email with exception: $e")
-        return null
-      }
+    try {
+      val response = notificationClient.sendEmail(
+        templateId,
+        emailAddress,
+        personalisation,
+        "eventAuditId",
+      )
+      return response.notificationId
+    } catch (e: NotificationClientException) {
+      LOG.error("Error sending email with exception: $e")
+      return null
+    }
   }
 
   fun sendSms(templateId: String, phoneNumber: String, personalisation: Map<String, String>): UUID? {

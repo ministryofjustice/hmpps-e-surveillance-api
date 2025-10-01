@@ -12,7 +12,6 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.data.SmsRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.NotificationTemplateService
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.NotifyService
 
-
 @RestController
 @RequestMapping("/test")
 class TestResource(
@@ -21,9 +20,7 @@ class TestResource(
   ) {
 
   @GetMapping("/hello")
-  fun sayHello(@RequestParam(name = "name", defaultValue = "World") name: String): String {
-    return "Hello, $name!"
-  }
+  fun sayHello(@RequestParam(name = "name", defaultValue = "World") name: String) = "Hello, $name!"
 
   @PostMapping("/sms")
   fun sendSms(@RequestBody request: SmsRequest): ResponseEntity<String> {
