@@ -52,3 +52,7 @@ logging:
   level:
     org.springframework: DEBUG
     root: INFO
+
+notify:
+  api:
+    key: dummy-api-key
