@@ -7,7 +7,7 @@ import uk.gov.service.notify.NotificationClientException
 import java.util.UUID
 
 class NotifyService(
-  private val notificationClient: NotificationClient
+  private val notificationClient: NotificationClient,
 ) {
   companion object {
     val LOG: Logger = LoggerFactory.getLogger(this::class.java)
@@ -21,9 +21,9 @@ class NotifyService(
         "eventAuditId",
       )
       return response.notificationId
-    } catch (e: NotificationClientException) {
-      LOG.error("Error sending email with exception: $e")
-      return null
+    } catch (ex: NotificationClientException) {
+      LOG.error("Error sending email with exception: $ex")
+      throw NotificationClientException("Failed to send Email via Notify: ${ex.localizedMessage}", ex)
     }
   }
 
@@ -36,9 +36,9 @@ class NotifyService(
         "eventAuditId",
       )
       return response.notificationId
-    } catch (e: NotificationClientException) {
-      LOG.error("Error sending sms with exception: $e")
-      return null
+    } catch (ex: NotificationClientException) {
+      LOG.error("Error sending sms with exception: $ex")
+      throw NotificationClientException("Failed to send SMS via Notify: ${ex.localizedMessage}", ex)
     }
   }
 }

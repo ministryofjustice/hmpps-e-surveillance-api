@@ -25,7 +25,7 @@ class TestResource(
   @PostMapping("/sms")
   fun sendSms(@RequestBody request: SmsRequest): ResponseEntity<String> {
     val notificationId = notifyService.sendSms(
-      notificationTemplateService.getTemplateIds(request.violation).smsId,
+      notificationTemplateService.getTemplateIds(request.violation).smsId+"1",
       request.phoneNumber,
       request.personalisation,
     )
