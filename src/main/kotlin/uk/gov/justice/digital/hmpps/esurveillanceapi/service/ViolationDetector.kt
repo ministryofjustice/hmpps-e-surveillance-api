@@ -1,6 +1,7 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 
 import org.springframework.stereotype.Service
+import uk.gov.justice.digital.hmpps.esurveillanceapi.data.Violation
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.ViolationType
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Event
 

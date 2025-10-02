@@ -1,6 +1,7 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 
 import uk.gov.justice.digital.hmpps.esurveillanceapi.data.NotificationTemplateIds
+import uk.gov.justice.digital.hmpps.esurveillanceapi.data.Violation
 
 object NotificationTemplateService {
 
