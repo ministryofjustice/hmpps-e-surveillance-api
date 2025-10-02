@@ -3,7 +3,6 @@ package uk.gov.justice.digital.hmpps.esurveillanceapi.config
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import uk.gov.justice.digital.hmpps.esurveillanceapi.service.NotifyService
 import uk.gov.service.notify.NotificationClient
 
 @Configuration
