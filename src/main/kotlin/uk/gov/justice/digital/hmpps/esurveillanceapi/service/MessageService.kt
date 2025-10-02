@@ -1,13 +1,7 @@
 package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 
+import uk.gov.justice.digital.hmpps.esurveillanceapi.data.Violation
 import uk.gov.justice.digital.hmpps.esurveillanceapi.messages.messageTemplates
-
-enum class Violation {
-  ENTERING_EXCLUSION_ZONE,
-  MISSING_CURFEW,
-  TAMPERING_WITH_DEVICE,
-  BATTERY_LOW,
-}
 
 enum class Tone {
   STERN,

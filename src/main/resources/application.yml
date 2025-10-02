@@ -86,3 +86,16 @@ aws:
 notify:
   api:
     key: ${NOTIFY_API_KEY}
+  templates:
+    tamperingWithDevice:
+      smsId: ${NOTIFY_TEMPLATE_TAMPERING_SMS}
+      emailId: ${NOTIFY_TEMPLATE_TAMPERING_EMAIL}
+    enteringExclusionZone:
+      smsId: ${NOTIFY_TEMPLATE_EXCLUSION_SMS}
+      emailId: ${NOTIFY_TEMPLATE_EXCLUSION_EMAIL}
+    missingCurfew:
+      smsId: ${NOTIFY_TEMPLATE_CURFEW_SMS}
+      emailId: ${NOTIFY_TEMPLATE_CURFEW_EMAIL}
+    batteryLow:
+      smsId: ${NOTIFY_TEMPLATE_BATTERY_SMS}
+      emailId: ${NOTIFY_TEMPLATE_BATTERY_EMAIL}
