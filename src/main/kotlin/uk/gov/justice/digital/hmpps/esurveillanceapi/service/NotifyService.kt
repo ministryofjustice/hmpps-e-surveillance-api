@@ -2,10 +2,12 @@ package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
 import java.util.UUID
 
+@Service
 class NotifyService(
   private val notificationClient: NotificationClient,
 ) {

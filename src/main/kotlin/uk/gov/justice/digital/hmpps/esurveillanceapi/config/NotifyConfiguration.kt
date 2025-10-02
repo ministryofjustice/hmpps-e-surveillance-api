@@ -10,7 +10,4 @@ import uk.gov.service.notify.NotificationClient
 class NotifyConfiguration(@param:Value("\${notify.api.key:invalidKey}") private val apiKey: String) {
   @Bean
   fun notifyClient(): NotificationClient = NotificationClient(apiKey)
-
-  @Bean
-  fun notifyService(): NotifyService = NotifyService(notifyClient())
 }
