@@ -23,7 +23,7 @@ class NotifyService(
       return response.notificationId
     } catch (ex: NotificationClientException) {
       LOG.error("Error sending email with exception: $ex")
-      throw NotificationClientException("Failed to send Email via Notify: ${ex.localizedMessage}", ex)
+      throw ex
     }
   }
 
@@ -38,7 +38,7 @@ class NotifyService(
       return response.notificationId
     } catch (ex: NotificationClientException) {
       LOG.error("Error sending sms with exception: $ex")
-      throw NotificationClientException("Failed to send SMS via Notify: ${ex.localizedMessage}", ex)
+      throw ex
     }
   }
 }

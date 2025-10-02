@@ -17,7 +17,7 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.service.NotifyService
 class TestResource(
   private val notifyService: NotifyService,
   private val notificationTemplateService: NotificationTemplateService,
-  ) {
+) {
 
   @GetMapping("/hello")
   fun sayHello(@RequestParam(name = "name", defaultValue = "World") name: String): String = "Hello, $name!"
