@@ -14,6 +14,17 @@ generic-service:
     END_POINT_INGEST: "https://e-surveillance-api-dev.hmpps.service.justice.gov.uk/ingest"
     END_POINT_INGEST_EVENTS: "https://e-surveillance-api-dev.hmpps.service.justice.gov.uk/ingest/events"
 
+    # Gov.UK Notify Template IDs
+    NOTIFY_TEMPLATE_TAMPERING_SMS: "dev-cf6c6c86-4510-4f77-bf70-af4e9979f085"
+    NOTIFY_TEMPLATE_TAMPERING_EMAIL: "dev-3ce9cad8-30f4-46b2-a810-00018623025c"
+    NOTIFY_TEMPLATE_EXCLUSION_SMS: "dev-793c8c27-c6f5-47f2-b043-b30043920797"
+    NOTIFY_TEMPLATE_EXCLUSION_EMAIL: "dev-8938a620-ad4a-4fdc-a3a0-1a63cad87179"
+    NOTIFY_TEMPLATE_CURFEW_SMS: "dev-0fd38b72-009e-4cda-b83e-89de6fc372a5"
+    NOTIFY_TEMPLATE_CURFEW_EMAIL: "dev-7f49bf4d-e3ff-4bfd-b0e9-105ae90a381a"
+    NOTIFY_TEMPLATE_BATTERY_SMS: "dev-22be7ba1-4d7e-4cfa-a556-95573bae0c47"
+    NOTIFY_TEMPLATE_BATTERY_EMAIL: "dev-85bf318d-04c0-4d9b-a516-9683266ceeea"
+
+
 # CloudPlatform AlertManager receiver to route prometheus alerts to slack
 # See https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts
 generic-prometheus-alerts:
