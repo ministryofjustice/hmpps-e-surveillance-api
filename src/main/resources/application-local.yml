@@ -1,5 +1,5 @@
 hmpps-auth:
-  url: "http://localhost:8090/auth"
+  url: "http://localhost:9090/auth"
 
 aws:
   credentials:
@@ -12,7 +12,7 @@ aws:
 
 spring:
   datasource:
-    url: "jdbc:postgresql://localhost:5432/esurveillance"
+    url: "jdbc:postgresql://surveillance-db:5432/esurveillance"
     username: myuser
     password: mypassword
 

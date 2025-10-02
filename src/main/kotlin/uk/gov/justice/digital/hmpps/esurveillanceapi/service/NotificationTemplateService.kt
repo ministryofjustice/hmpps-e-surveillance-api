@@ -10,17 +10,10 @@ class NotificationTemplateService(
   private val notifyTemplateProperties: NotifyTemplateProperties,
 ) {
 
-  fun getTemplateIds(violation: Violation): NotificationTemplateIds {
-    val templateIds = when (violation) {
-      Violation.TAMPERING_WITH_DEVICE -> notifyTemplateProperties.tamperingWithDevice
-      Violation.ENTERING_EXCLUSION_ZONE -> notifyTemplateProperties.enteringExclusionZone
-      Violation.MISSING_CURFEW -> notifyTemplateProperties.missingCurfew
-      Violation.BATTERY_LOW -> notifyTemplateProperties.batteryLow
-    }
-
-    return NotificationTemplateIds(
-      smsId = templateIds.smsId,
-      emailId = templateIds.emailId,
-    )
+  fun getTemplateIds(violation: Violation): NotificationTemplateIds = when (violation) {
+    Violation.TAMPERING_WITH_DEVICE -> notifyTemplateProperties.tamperingWithDevice
+    Violation.ENTERING_EXCLUSION_ZONE -> notifyTemplateProperties.enteringExclusionZone
+    Violation.MISSING_CURFEW -> notifyTemplateProperties.missingCurfew
+    Violation.BATTERY_LOW -> notifyTemplateProperties.batteryLow
   }
 }
