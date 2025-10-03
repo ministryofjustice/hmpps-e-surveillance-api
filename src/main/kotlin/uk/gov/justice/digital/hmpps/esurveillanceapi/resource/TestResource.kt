@@ -24,12 +24,12 @@ class TestResource(
 
   @PostMapping("/sms")
   fun sendSms(@RequestBody request: SmsRequest): ResponseEntity<String> {
-    val notificationId = notifyService.sendSms(
+    val smsResponse = notifyService.sendSms(
       notificationTemplateService.getTemplateIds(request.violation).smsId,
       request.phoneNumber,
       request.personalisation,
     )
-    return ResponseEntity.ok("SMS request received with notificationId $notificationId")
+    return ResponseEntity.ok("SMS request received with notificationId ${smsResponse.notificationId}")
   }
 
   @PostMapping("/email")

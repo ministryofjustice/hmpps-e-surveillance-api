@@ -5,19 +5,26 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.web.PageableDefault
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import uk.gov.justice.digital.hmpps.esurveillanceapi.data.TriggerNotificationRequest
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Notification
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.NotificationRepository
+import uk.gov.justice.digital.hmpps.esurveillanceapi.service.NotificationTemplateService
+import uk.gov.justice.digital.hmpps.esurveillanceapi.service.NotifyService
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @RestController
-@RequestMapping("/notifications")
 class NotificationResource(
   private val notificationRepository: NotificationRepository,
+  private val notifyService: NotifyService,
+  private val notificationTemplateService: NotificationTemplateService,
 ) {
 
-  @GetMapping
+  @GetMapping("/notifications")
   fun getNotifications(
     @RequestParam(required = false) search: String?,
     @PageableDefault(size = 30, sort = ["timestamp"], direction = org.springframework.data.domain.Sort.Direction.DESC)
@@ -29,5 +36,31 @@ class NotificationResource(
       spec = notificationRepository.searchNotifications(search)
     }
     return notificationRepository.findAll(spec, pageable)
+  }
+
+  @PostMapping("/trigger-notification")
+  fun triggerNotification(@RequestBody request: TriggerNotificationRequest) {
+    val templateIds = notificationTemplateService.getTemplateIds(request.violationType)
+    val now = LocalDateTime.now()
+    val date = now.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+    val time = now.format(DateTimeFormatter.ofPattern("HH:mm"))
+
+    val smsPersonalisation = mapOf("givenName" to request.givenName)
+    val smsResponse = notifyService.sendSms(templateIds.smsId, request.phoneNumber, smsPersonalisation)
+    val smsMessage = smsResponse.body
+
+    val emailPersonalisation = mapOf(
+      "ppGivenName" to request.ppGivenName,
+      "ppFamilyName" to request.ppFamilyName,
+      "givenName" to request.givenName,
+      "familyName" to request.familyName,
+      "violationType" to request.violationType.name,
+      "phoneNumber" to request.phoneNumber,
+      "email" to request.email,
+      "date" to date,
+      "time" to time,
+      "smsMessage" to smsMessage,
+    )
+    notifyService.sendEmail(templateIds.emailId, request.email, emailPersonalisation)
   }
 }

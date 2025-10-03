@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
+import uk.gov.service.notify.SendSmsResponse
 import java.util.UUID
 
 @Service
@@ -29,15 +30,14 @@ class NotifyService(
     }
   }
 
-  fun sendSms(templateId: String, phoneNumber: String, personalisation: Map<String, String>): UUID? {
+  fun sendSms(templateId: String, phoneNumber: String, personalisation: Map<String, String>): SendSmsResponse {
     try {
-      val response = notificationClient.sendSms(
+      return notificationClient.sendSms(
         templateId,
         phoneNumber,
         personalisation,
         "eventAuditId",
       )
-      return response.notificationId
     } catch (ex: NotificationClientException) {
       LOG.error("Error sending sms with exception: $ex")
       throw ex
