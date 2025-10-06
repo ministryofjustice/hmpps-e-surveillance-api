@@ -36,7 +36,7 @@ hmpps:
 
 notify:
   api:
-    key: "local-fake-api-key"
+    key: ${NOTIFY_API_KEY:}
   templates:
     tamperingWithDevice:
       smsId: "cf6c6c86-4510-4f77-bf70-af4e9979f085"
