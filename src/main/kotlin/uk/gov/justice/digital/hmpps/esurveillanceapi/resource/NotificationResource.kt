@@ -47,7 +47,7 @@ class NotificationResource(
 
     val smsPersonalisation = mapOf("givenName" to request.givenName)
     val smsResponse = notifyService.sendSms(templateIds.smsId, request.phoneNumber, smsPersonalisation)
-    val smsMessage = smsResponse.body
+    val smsMessage = smsResponse.body.replace("\n\n", "\n")
 
     val emailPersonalisation = mapOf(
       "ppGivenName" to request.ppGivenName,
