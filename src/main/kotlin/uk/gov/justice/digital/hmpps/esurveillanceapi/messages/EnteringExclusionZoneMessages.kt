@@ -2,6 +2,7 @@ package uk.gov.justice.digital.hmpps.esurveillanceapi.messages
 
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.MessageTemplate
 
+@Deprecated("Use NotificationClient instead")
 val enteringExclusionZoneTemplate = MessageTemplate(
   stern = "[Name]\n\nYour tag location suggests you are in an area you are not allowed to be in.\n\nPlease leave the area now. If you do not, this could become a breach of your conditions.\n\nWe will investigate this, and your probation officer will discuss this with you at your next meeting.",
   neutral = "[Name]\n\nYour tag location suggests you are in an area you are not allowed to be in.\n\nPlease leave the area now.\n\nYour probation officer will discuss this with you at your next meeting.",

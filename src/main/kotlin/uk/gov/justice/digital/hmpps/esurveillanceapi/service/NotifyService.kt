@@ -2,15 +2,16 @@ package uk.gov.justice.digital.hmpps.esurveillanceapi.service
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.NotificationClientException
 import uk.gov.service.notify.SendSmsResponse
-import java.util.UUID
+import java.util.*
 
 @Service
 class NotifyService(
-  private val notificationClient: NotificationClient,
+  @param:Qualifier("primaryNotifyClient") private val notificationClient: NotificationClient,
 ) {
   companion object {
     val LOG: Logger = LoggerFactory.getLogger(this::class.java)

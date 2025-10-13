@@ -86,6 +86,7 @@ aws:
 notify:
   api:
     key: ${NOTIFY_API_KEY}
+    ingestionKey: ${NOTIFY_API_KEY_INGESTION}
   templates:
     tamperingWithDevice:
       smsId: ${NOTIFY_TEMPLATE_TAMPERING_SMS}

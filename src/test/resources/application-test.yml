@@ -56,3 +56,4 @@ logging:
 notify:
   api:
     key: dummy-api-key
+    ingestionKey: dummy-api-key

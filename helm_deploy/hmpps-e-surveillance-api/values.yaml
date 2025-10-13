@@ -54,6 +54,7 @@ generic-service:
     # GOV.UK Notify
     hmpps-e-surveillance-api-notify:
       NOTIFY_API_KEY: "notify_api_key"
+      NOTIFY_API_KEY_INGESTION: "notify_api_key_ingestion"
 
   allowlist:
     groups:

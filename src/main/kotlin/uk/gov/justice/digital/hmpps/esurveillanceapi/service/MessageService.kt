@@ -20,6 +20,7 @@ data class MessageTemplate(
   val supportive: String,
 )
 
+@Deprecated("Use NotificationClient instead")
 fun generateMessage(name: String, violation: Violation, tone: Tone): String {
   val template = messageTemplates[violation]
     ?: return "No message template found for violation: $violation"
