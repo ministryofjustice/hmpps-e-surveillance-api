@@ -22,9 +22,6 @@ class EventProcessorServiceIntegrationTest {
   @MockBean(name = "ingestionNotifyClient")
   lateinit var ingestionNotifyClient: NotificationClient
 
-  @MockBean
-  lateinit var hmppsQueueService: HmppsQueueService
-
   @Autowired
   lateinit var eventsProcessorService: EventsProcessorService
 

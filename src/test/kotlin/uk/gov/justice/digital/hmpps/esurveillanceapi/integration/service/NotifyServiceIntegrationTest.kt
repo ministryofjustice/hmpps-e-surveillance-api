@@ -25,9 +25,6 @@ class NotifyServiceIntegrationTest {
   @MockBean(name = "primaryNotifyClient")
   lateinit var primaryNotifyClient: NotificationClient
 
-  @MockBean
-  lateinit var hmppsQueueService: HmppsQueueService
-
   @Autowired
   lateinit var notifyService: NotifyService
 
