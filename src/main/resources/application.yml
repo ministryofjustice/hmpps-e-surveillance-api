@@ -100,3 +100,7 @@ notify:
     batteryLow:
       smsId: ${NOTIFY_TEMPLATE_BATTERY_SMS}
       emailId: ${NOTIFY_TEMPLATE_BATTERY_EMAIL}
+
+hmpps:
+  sqs:
+    enabled: true
