@@ -11,12 +11,23 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.EventsProcessorService
+import uk.gov.justice.hmpps.sqs.HmppsQueue
+import uk.gov.justice.hmpps.sqs.HmppsQueueService
 import uk.gov.service.notify.NotificationClient
 import uk.gov.service.notify.SendSmsResponse
 
-@SpringBootTest
+@SpringBootTest(properties = ["hmpps.sqs.enabled=false"])
 @ActiveProfiles("test")
 class EventProcessorServiceIntegrationTest {
+
+  @MockBean
+  lateinit var hmppsQueueService: HmppsQueueService
+
+  @MockBean(name = "fileuploadqueue")
+  lateinit var fileUploadQueue: HmppsQueue
+
+  @MockBean(name = "fileuploadqueue-dlq")
+  lateinit var fileUploadDlq: HmppsQueue
 
   @MockBean(name = "ingestionNotifyClient")
   lateinit var ingestionNotifyClient: NotificationClient
