@@ -77,3 +77,7 @@ On startup, it creates following resources in localstack:
 * S3 bucket with name `people-and-events-bucket`
 * SQS with queue names `fileuploadqueue` and `personidqueue`
 
+### Run tests
+```bash
+./gradlew test
+```
