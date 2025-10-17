@@ -1,6 +1,7 @@
 #!/bin/bash
 
 readonly SNS_TOPIC_FILE_UPLOAD="file-upload-topic"
+readonly SNS_TOPIC_EVENTS="person-id-topic.fifo"
 
 readonly PEOPLE_AND_EVENTS_BUCKET="people-and-events-bucket"
 echo "Creating S3 bucket, SNS topic in LocalStack..."
