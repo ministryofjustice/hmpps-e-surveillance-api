@@ -20,6 +20,25 @@ A Spring Boot REST API for managing file uploads, triggering notifications, and 
 
 * Kotlin
 
+#### GOV.UK Notify Integration
+
+This application uses GOV.UK Notify to send SMS and email notifications for violation events. It uses two separate API keys for different purposes:
+
+**Primary Notify Client (Live Key)**
+- Used for: Manual notifications triggered via `/trigger-notification` endpoint
+- Configuration: `NOTIFY_API_KEY` environment variable
+- Behavior: Sends real SMS and emails to actual recipients
+- Used by: `NotifyService` with `@Qualifier("primaryNotifyClient")`
+
+**Ingestion Notify Client (Sandbox Key)**
+- Used for: Automated notifications during event processing/file ingestion
+- Configuration: `NOTIFY_API_KEY_INGESTION` environment variable
+- Behavior: Dry-run mode using GOV.UK Notify sandbox key - does NOT send real notifications
+- Used by: `EventsProcessorService` with `@Qualifier("ingestionNotifyClient")`
+- Purpose: Test notification templates during event ingestion without sending to real users
+
+Both clients require corresponding template IDs to be configured in `application.yml` for each violation type (tampering, curfew, exclusion zone, battery low).
+
 #### API end points
 
 * POST /trigger-notification
@@ -27,7 +46,7 @@ A Spring Boot REST API for managing file uploads, triggering notifications, and 
     Triggers a notification (SMS and Email) for a violation event.
 
     Request Body:
-    
+
     ```json
     {
         "ppGivenName": "Officer",
@@ -38,6 +57,7 @@ A Spring Boot REST API for managing file uploads, triggering notifications, and 
         "phoneNumber": "07000000000",
         "email": "john.doe@example.com"
     }
+    ```
 
 * GET /notifications
 
@@ -47,6 +67,18 @@ A Spring Boot REST API for managing file uploads, triggering notifications, and 
 * GET /persons
 
   Returns a paginated list of persons with optional filters.
+
+#### Testing the API
+
+This API can be tested using the web dashboard instead of Postman:
+
+**UI Dashboard:** [hmpps-e-surveillance-ui](https://github.com/ministryofjustice/hmpps-e-surveillance-ui)
+
+The dashboard provides a user-friendly interface to:
+- Upload person and event CSV files
+- Trigger manual notifications
+- View persons and notifications
+- Monitor file processing status
   
 ## Running the application locally
 
@@ -76,6 +108,24 @@ On startup, it creates following resources in localstack:
 * SNS topic with name `file-upload-topic`
 * S3 bucket with name `people-and-events-bucket`
 * SQS with queue names `fileuploadqueue` and `personidqueue`
+
+### Environment Variables
+
+The following environment variables are required:
+
+**GOV.UK Notify Configuration:**
+- `NOTIFY_API_KEY` - Live API key for sending real notifications via `/trigger-notification` endpoint
+- `NOTIFY_API_KEY_INGESTION` - Sandbox API key for testing during event ingestion (dry-run mode)
+- `NOTIFY_TEMPLATE_TAMPERING_SMS` - Template ID for tampering SMS
+- `NOTIFY_TEMPLATE_TAMPERING_EMAIL` - Template ID for tampering email
+- `NOTIFY_TEMPLATE_CURFEW_SMS` - Template ID for curfew violation SMS
+- `NOTIFY_TEMPLATE_CURFEW_EMAIL` - Template ID for curfew violation email
+- `NOTIFY_TEMPLATE_EXCLUSION_SMS` - Template ID for exclusion zone SMS
+- `NOTIFY_TEMPLATE_EXCLUSION_EMAIL` - Template ID for exclusion zone email
+- `NOTIFY_TEMPLATE_BATTERY_SMS` - Template ID for battery low SMS
+- `NOTIFY_TEMPLATE_BATTERY_EMAIL` - Template ID for battery low email
+
+For local development, set these in `application-local.yml` or as environment variables.
 
 ### Run tests
 ```bash
