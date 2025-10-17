@@ -2,6 +2,7 @@ package uk.gov.justice.digital.hmpps.esurveillanceapi.messages
 
 import uk.gov.justice.digital.hmpps.esurveillanceapi.service.MessageTemplate
 
+@Deprecated("Use NotificationClient instead")
 val tamperingWithDeviceTemplate = MessageTemplate(
   stern = "[Name]\n\nYour tag suggests possible tampering.\n\nPlease stop now. If it continues, it could become a breach of your conditions.\n\nWe will investigate this, and your probation officer will discuss this with you at your next meeting.",
   neutral = "[Name]\n\nYour tag suggests possible tampering.\n\nPlease stop now.\n\nYour probation officer will discuss this with you at your next meeting.",

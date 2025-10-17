@@ -37,6 +37,7 @@ hmpps:
 notify:
   api:
     key: ${NOTIFY_API_KEY:}
+    ingestionKey: ${NOTIFY_API_KEY_INGESTION:}
   templates:
     tamperingWithDevice:
       smsId: "cf6c6c86-4510-4f77-bf70-af4e9979f085"

@@ -6,6 +6,7 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.GetObjectRequest
@@ -15,6 +16,8 @@ import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Event
 import uk.gov.justice.digital.hmpps.esurveillanceapi.entity.Persons
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.EventRepository
 import uk.gov.justice.digital.hmpps.esurveillanceapi.repository.PersonsRepository
+import uk.gov.service.notify.NotificationClient
+import uk.gov.service.notify.SendSmsResponse
 
 @Service
 class EventsProcessorService(
@@ -23,6 +26,8 @@ class EventsProcessorService(
   private val violationDetector: ViolationDetector,
   private val notificationService: NotificationService,
   private val s3Client: S3Client,
+  @param:Qualifier("ingestionNotifyClient") private val notificationClient: NotificationClient,
+  private val notificationTemplateService: NotificationTemplateService,
 ) {
 
   companion object {
@@ -75,8 +80,11 @@ class EventsProcessorService(
         LOG.info("Violation:  $violation for $dbEvents by user $user ")
         if (violation != null) {
           val violationString = violationDetector.mapViolationTypeToViolation(violation)
+          val templateId = notificationTemplateService.getTemplateIds(violationString).smsId
           if (user != null) {
-            val message = generateMessage(user.givenName, violationString, Tone.SUPPORTIVE)
+            val smsPersonalisation = mapOf("givenName" to user.givenName)
+            val response: SendSmsResponse = notificationClient.sendSms(templateId, "07000000000", smsPersonalisation, "")
+            val message = response.body
             val personName = "${user.givenName} ${user.familyName}".trim()
             notificationService.saveNotification(personId, personName, violationString.name, message)
           } else {

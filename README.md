@@ -4,114 +4,82 @@
 [![Docker Repository on ghcr](https://img.shields.io/badge/ghcr.io-repository-2496ED.svg?logo=docker)](https://ghcr.io/ministryofjustice/hmpps-e-surveillance-api)
 [![API docs](https://img.shields.io/badge/API_docs_-view-85EA2D.svg?logo=swagger)](https://hmpps-e-surveillance-api-dev.hmpps.service.justice.gov.uk/webjars/swagger-ui/index.html?configUrl=/v3/api-docs)
 
-Template github repo used for new Kotlin based projects.
+### About HMPPS e-Surveillance API
 
-# Instructions
+A Spring Boot REST API for managing file uploads, triggering notifications, and querying person records. It integrates with Amazon S3 for presigned upload URLs and uses GOV.UK Notify for sending SMS and email alerts.
 
-If this is a HMPPS project then the project will be created as part of bootstrapping -
-see [dps-project-bootstrap](https://github.com/ministryofjustice/dps-project-bootstrap). You are able to specify a
-template application using the `github_template_repo` attribute to clone without the need to manually do this yourself
-within GitHub.
+#### Technologies
 
-This project is community managed by the mojdt `#kotlin-dev` slack channel.
-Please raise any questions or queries there. Contributions welcome!
+* Spring Boot
 
-Our security policy is located [here](https://github.com/ministryofjustice/hmpps-e-surveillance-api/security/policy).
+* Spring Data JPA, Postgres
 
-Documentation to create new service is located [here](https://tech-docs.hmpps.service.justice.gov.uk/creating-new-services/).
+* Amazon AWS / localstack
 
-## Creating a Cloud Platform namespace
+* GOV.UK Notify
 
-When deploying to a new namespace, you may wish to use the
-[templates project namespace](https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-templates-dev)
-as the basis for your new namespace. This namespace contains both the kotlin and typescript template projects, 
-which is the usual way that projects are setup.
+* Kotlin
 
-Copy this folder and update all the existing namespace references to correspond to the environment to which you're deploying.
+#### GOV.UK Notify Integration
 
-If you only need the kotlin configuration then remove all typescript references and remove the elasticache configuration. 
+This application uses GOV.UK Notify to send SMS and email notifications for violation events. It uses two separate API keys for different purposes:
 
-To ensure the correct github teams can approve releases, you will need to make changes to the configuration in `resources/service-account-github` where the appropriate team names will need to be added (based on [lines 98-100](https://github.com/ministryofjustice/cloud-platform-environments/blob/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-templates-dev/resources/serviceaccount-github.tf#L98) and the reference appended to the teams list below [line 112](https://github.com/ministryofjustice/cloud-platform-environments/blob/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-templates-dev/resources/serviceaccount-github.tf#L112)). Note: hmpps-sre is in this list to assist with deployment issues.
+**Primary Notify Client (Live Key)**
+- Used for: Manual notifications triggered via `/trigger-notification` endpoint
+- Configuration: `NOTIFY_API_KEY` environment variable
+- Behavior: Sends real SMS and emails to actual recipients
+- Used by: `NotifyService` with `@Qualifier("primaryNotifyClient")`
 
-Submit a PR to the Cloud Platform team in
-#ask-cloud-platform. Further instructions from the Cloud Platform team can be found in
-the [Cloud Platform User Guide](https://user-guide.cloud-platform.service.justice.gov.uk/#cloud-platform-user-guide)
+**Ingestion Notify Client (Sandbox Key)**
+- Used for: Automated notifications during event processing/file ingestion
+- Configuration: `NOTIFY_API_KEY_INGESTION` environment variable
+- Behavior: Dry-run mode using GOV.UK Notify sandbox key - does NOT send real notifications
+- Used by: `EventsProcessorService` with `@Qualifier("ingestionNotifyClient")`
+- Purpose: Test notification templates during event ingestion without sending to real users
 
-## Renaming from HMPPS E Surveillance Api - github Actions
+Both clients require corresponding template IDs to be configured in `application.yml` for each violation type (tampering, curfew, exclusion zone, battery low).
 
-Once the new repository is deployed. Navigate to the repository in github, and select the `Actions` tab.
-Click the link to `Enable Actions on this repository`.
+#### API end points
 
-Find the Action workflow named: `rename-project-create-pr` and click `Run workflow`. This workflow will
-execute the `rename-project.bash` and create Pull Request for you to review. Review the PR and merge.
+* POST /trigger-notification
 
-Note: ideally this workflow would run automatically however due to a recent change github Actions are not
-enabled by default on newly created repos. There is no way to enable Actions other then to click the button in the UI.
-If this situation changes we will update this project so that the workflow is triggered during the bootstrap project.
-Further reading: <https://github.community/t/workflow-isnt-enabled-in-repos-generated-from-template/136421>
+    Triggers a notification (SMS and Email) for a violation event.
 
-The script takes six arguments:
+    Request Body:
 
-### New project name
+    ```json
+    {
+        "ppGivenName": "Officer",
+        "ppFamilyName": "Smith",
+        "givenName": "John",
+        "familyName": "Doe",
+        "violationType": "BATTERY_LOW",
+        "phoneNumber": "07000000000",
+        "email": "john.doe@example.com"
+    }
+    ```
 
-This should start with `hmpps-` e.g. `hmpps-prison-visits` so that it can be easily distinguished in github from
-other departments projects. Try to avoid using abbreviations so that others can understand easily what your project is.
+* GET /notifications
 
-### Slack channel for release notifications
+  Returns a paginated list of notifications with optional search.
 
-By default, release notifications are only enabled for production. The circleci configuration can be amended to send
-release notifications for deployments to other environments if required. Note that if the configuration is amended,
-the slack channel should then be amended to your own team's channel as `dps-releases` is strictly for production release
-notifications. If the slack channel is set to something other than `dps-releases`, production release notifications
-will still automatically go to `dps-releases` as well. This is configured by `releases-slack-channel` in
-`.circleci/config.yml`.
 
-### Slack channel for pipeline security notifications
+* GET /persons
 
-Ths channel should be specific to your team and is for daily / weekly security scanning job results. It is your team's
-responsibility to keep up-to-date with security issues and update your application so that these jobs pass. You will
-only be notified if the jobs fail. The scan results can always be found in circleci for your project. This is
-configured by `alerts-slack-channel` in `.circleci/config.yml`.
+  Returns a paginated list of persons with optional filters.
 
-### Non production kubernetes alerts
+#### Testing the API
 
-By default Prometheus alerts are created in the application namespaces to monitor your application e.g. if your
-application is crash looping, there are a significant number of errors from the ingress. Since Prometheus runs in
-cloud platform AlertManager needs to be setup first with your channel. Please see
-[Create your own custom alerts](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html)
-in the Cloud Platform user guide. Once that is setup then the `custom severity label` can be used for
-`alertSeverity` in the `helm_deploy/values-*.yaml` configuration.
+This API can be tested using the web dashboard instead of Postman:
 
-Normally it is worth setting up two separate labels and therefore two separate slack channels - one for your production
-alerts and one for your non-production alerts. Using the same channel can mean that production alerts are sometimes
-lost within non-production issues.
+**UI Dashboard:** [hmpps-e-surveillance-ui](https://github.com/ministryofjustice/hmpps-e-surveillance-ui)
 
-### Production kubernetes alerts
-
-This is the severity label for production, determined by the `custom severity label`. See the above
-#non-production-kubernetes-alerts for more information. This is configured in `helm_deploy/values-prod.yaml`.
-
-### Product ID
-
-This is so that we can link a component to a product and thus provide team and product information in the Developer
-Portal. Refer to the developer portal at https://developer-portal.hmpps.service.justice.gov.uk/products to find your
-product id. This is configured in `helm_deploy/<project_name>/values.yaml`.
-
-## Manually branding from template app
-
-Run the `rename-project.bash` without any arguments. This will prompt for the six required parameters and create a PR.
-The script requires a recent version of `bash` to be installed, as well as GNU `sed` in the path.
-
-## Common Kotlin patterns
-
-Many patterns have evolved for HMPPS Kotlin applications. Using these patterns provides consistency across our suite of 
-Kotlin microservices and allows you to concentrate on building  your business needs rather than reinventing the 
-technical approach.
-
-Documentation for these patterns can be found in the [HMPPS tech docs](https://tech-docs.hmpps.service.justice.gov.uk/common-kotlin-patterns/). 
-If this documentation is incorrect or needs improving please report to [#ask-prisons-digital-sre](https://moj.enterprise.slack.com/archives/C06MWP0UKDE)
-or [raise a PR](https://github.com/ministryofjustice/hmpps-tech-docs). 
-
+The dashboard provides a user-friendly interface to:
+- Upload person and event CSV files
+- Trigger manual notifications
+- View persons and notifications
+- Monitor file processing status
+  
 ## Running the application locally
 
 The application comes with a `dev` spring profile that includes default settings for running locally. This is not
@@ -133,5 +101,33 @@ will build the application and run it and HMPPS Auth within a local docker insta
 docker compose pull && docker compose up --scale hmpps-e-surveillance-api=0
 ```
 
-will just start a docker instance of HMPPS Auth. The application should then be started with a `dev` active profile
+will just start a docker instance of HMPPS Auth, surveillance-db, and localstack. The application should then be started with a `dev` active profile
 in Intellij.
+
+On startup, it creates following resources in localstack:
+* SNS topic with name `file-upload-topic`
+* S3 bucket with name `people-and-events-bucket`
+* SQS with queue names `fileuploadqueue` and `personidqueue`
+
+### Environment Variables
+
+The following environment variables are required:
+
+**GOV.UK Notify Configuration:**
+- `NOTIFY_API_KEY` - Live API key for sending real notifications via `/trigger-notification` endpoint
+- `NOTIFY_API_KEY_INGESTION` - Sandbox API key for testing during event ingestion (dry-run mode)
+- `NOTIFY_TEMPLATE_TAMPERING_SMS` - Template ID for tampering SMS
+- `NOTIFY_TEMPLATE_TAMPERING_EMAIL` - Template ID for tampering email
+- `NOTIFY_TEMPLATE_CURFEW_SMS` - Template ID for curfew violation SMS
+- `NOTIFY_TEMPLATE_CURFEW_EMAIL` - Template ID for curfew violation email
+- `NOTIFY_TEMPLATE_EXCLUSION_SMS` - Template ID for exclusion zone SMS
+- `NOTIFY_TEMPLATE_EXCLUSION_EMAIL` - Template ID for exclusion zone email
+- `NOTIFY_TEMPLATE_BATTERY_SMS` - Template ID for battery low SMS
+- `NOTIFY_TEMPLATE_BATTERY_EMAIL` - Template ID for battery low email
+
+For local development, set these in `application-local.yml` or as environment variables.
+
+### Run tests
+```bash
+./gradlew test
+```
